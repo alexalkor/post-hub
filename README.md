@@ -11,7 +11,7 @@ An **MVP of a social-media content automation solution** that can be tailored to
 All shipped data is simulated (a demo product catalog and three fictional brands); no real client is named.
 
 ### Roadmap (MVP to full solution)
-1. **Showcase**: a presentation page with template, brand-tailoring, carousel and reel examples, and the benefits.
+1. **Showcase** (done): `showcase/index.html`, a presentation page with brand-tailoring, template, reel, carousel and photo cut-out examples. Open it from a local web server (`node -e` one-liner or any static server) at `/showcase/`; rebuild its examples with `node showcase/build-assets.mjs`.
 2. **Tailoring playbook**: what a client provides, the steps and timing to onboard them, what they get.
 3. **Pitch generator**: `studio/pitch.mjs <company>` builds a personalised demo from a client's logo, colours and a few products.
 4. **Content planning and captions**: a plan per account, captions in the brand voice.
@@ -22,6 +22,7 @@ catalog/<company>/<product>/   products: pictures + product.js (texts en / pl / 
 brands/<company>/brand.js      brand kit: colours, fonts, logo, corners, voice, defaults
 templates/<id>/template.css    layouts: aurora, bento, editorial, brutal, blueprint, kinetic, soft, split, swiss, stage
 carousels/<id>/carousel.css    swipe carousels: panorama, deck, numbered
+showcase/                      client presentation page + its rendered examples
 studio/                        hub page, carousel page, renderers, gallery, tools
 ```
 

@@ -16,3 +16,6 @@ logs/
 
 # Real (third-party licensed) photos: fetched by studio/fetch-real-photos.mjs, never committed
 catalog/real-*/
+
+# The showcase page ships its small demo videos
+!showcase/assets/video/*.mp4

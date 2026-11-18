@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Post Hub Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=DM+Sans:opsz,wght@9..40,400..600&family=JetBrains+Mono:wght@400..600&display=swap">
+<style>
+/* Layout concept: a studio wall. A cool paper page, one signal-orange accent, big grotesque headlines, mono labels, and the work itself (stills, loops, carousels) doing the talking. */
+:root{
+  --bg:#EDEFF2; --surface:#FFFFFF; --ink:#12161D; --muted:#566070; --line:rgba(18,22,29,.14); --accent:#E8431C; --accent-ink:#FFFFFF; --soft:#E2E5EA; --code:#E6E9EE;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; --body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --gutter:max(16px,env(safe-area-inset-left,0px)); --gutter-r:max(16px,env(safe-area-inset-right,0px));
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1116;--surface:#161B22;--ink:#ECEFF4;--muted:#9AA3B2;--line:rgba(236,239,244,.16);--accent:#FF6A45;--accent-ink:#0E1116;--soft:#1E242D;--code:#1B212A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1116;--surface:#161B22;--ink:#ECEFF4;--muted:#9AA3B2;--line:rgba(236,239,244,.16);--accent:#FF6A45;--accent-ink:#0E1116;--soft:#1E242D;--code:#1B212A;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+section{padding-block:clamp(56px,9vw,112px)}
+h1,h2,h3{font-family:var(--display);line-height:1.02;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(40px,7vw,88px);font-weight:800}
+h2{font-size:clamp(30px,4.6vw,56px);font-weight:800}
+h3{font-size:clamp(20px,2.2vw,26px);font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+.lead{font-size:clamp(18px,1.8vw,22px);color:var(--muted);max-width:60ch}
+.label{font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--accent);font-weight:600}
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{display:block;width:14px;height:14px;background:var(--accent);border-radius:3px;transform:rotate(45deg)}
+nav{display:flex;gap:4px 18px;flex-wrap:wrap}
+nav a{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:6px 0}
+nav a:hover{color:var(--ink)}
+/* hero */
+.hero{padding-top:clamp(40px,6vw,80px);padding-bottom:clamp(40px,6vw,72px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(28px,4vw,64px);align-items:center}
+.hero h1 span{color:var(--accent)}
+.hero .lead{margin-top:24px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;padding:0;list-style:none}
+.facts li{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;border:1px solid var(--line);border-radius:999px;padding:7px 13px;background:var(--surface)}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.4vw,16px);align-items:end}
+.trio figure{margin:0}
+.trio img{width:100%;height:auto;border-radius:14px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45)}
+.trio figure:nth-child(1){transform:translateY(0)}.trio figure:nth-child(2){transform:translateY(-18px)}.trio figure:nth-child(3){transform:translateY(8px)}
+.trio figcaption{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.note{font-size:14.5px;color:var(--muted);margin-top:22px;max-width:60ch}
+/* how it works */
+.how-head{display:grid;gap:18px;max-width:780px;margin-bottom:44px}
+.inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.card .label b{margin-right:6px}
+pre{margin:0;background:var(--code);border-radius:10px;padding:14px 16px;font-family:var(--mono);font-size:12.5px;line-height:1.6;overflow-x:auto;color:var(--ink)}
+.outputs{margin-top:16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:stretch}
+.plus{display:grid;place-items:center;font-family:var(--display);font-size:34px;color:var(--accent);padding:0 6px}
+.outbox{background:var(--ink);color:var(--bg);border-radius:18px;padding:22px 24px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
+.outbox strong{font-family:var(--display);font-size:20px;font-weight:700;margin-right:auto}
+.outbox span{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+/* looks */
+.looks{background:var(--surface);border-block:1px solid var(--line)}
+.looks-grid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:44px;align-items:start}
+.pick{display:grid;gap:22px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{font:inherit;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer}
+.tab:hover{border-color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab:focus-visible,a:focus-visible,video:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.kit{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:12px}
+.kit h3{font-size:22px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatches i{display:block;width:34px;height:34px;border-radius:8px;border:1px solid var(--line)}
+.kit dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}
+.kit dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.kit dd{margin:0}
+.stage{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;justify-items:start}
+.stage .shot{width:min(100%,520px);border-radius:16px;box-shadow:0 30px 60px -28px rgba(0,0,0,.5);aspect-ratio:4/5;background:var(--soft)}
+.stage .shot img{width:100%;height:100%;object-fit:cover;border-radius:16px}
+.stage p{max-width:52ch;color:var(--muted)}
+.stage p strong{color:var(--ink)}
+.sheet{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:8px;width:min(100%,520px)}
+.sheet button{padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;cursor:pointer;background:none;aspect-ratio:4/5}
+.sheet button img{width:100%;height:100%;object-fit:cover}
+.sheet button[aria-selected="true"]{border-color:var(--accent)}
+/* formats */
+.vids{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:44px;align-items:start}
+.vid{display:grid;gap:10px;min-width:0}
+.vid video{width:100%;height:auto;border-radius:14px;background:var(--soft)}
+.vid .label{display:flex;justify-content:space-between;gap:8px}
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:36px}
+.spec{border-top:2px solid var(--ink);padding-top:12px;display:grid;gap:4px}
+.spec strong{font-family:var(--display);font-size:26px;font-weight:800;letter-spacing:-.02em}
+.spec span{font-size:14.5px;color:var(--muted)}
+/* carousels */
+.cars{background:var(--ink);color:var(--bg)}
+.cars .lead,.cars .label{color:color-mix(in srgb,var(--bg) 65%,transparent)}
+.cars .tab{background:transparent;color:var(--bg);border-color:color-mix(in srgb,var(--bg) 35%,transparent)}
+.cars .tab[aria-selected="true"]{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+.cars-top{display:grid;gap:18px;max-width:760px;margin-bottom:28px}
+.strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:6px 0 18px;margin-top:24px}
+.strip.seamless{gap:0}
+.strip img{flex:none;width:min(62vw,300px);aspect-ratio:4/5;object-fit:cover;scroll-snap-align:start;border-radius:12px}
+.strip.seamless img{border-radius:0}
+.strip.seamless img:first-child{border-radius:12px 0 0 12px}.strip.seamless img:last-child{border-radius:0 12px 12px 0}
+.cartext{max-width:62ch;color:color-mix(in srgb,var(--bg) 78%,transparent);margin-top:6px}
+/* photos */
+.pairs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,40px);margin-top:44px}
+.pair{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:end}
+.pair figure{margin:0;display:grid;gap:8px}
+.pair img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;background:var(--soft)}
+.pair .cut{object-fit:contain;background:repeating-conic-gradient(var(--soft) 0 25%,var(--bg) 0 50%) 0 0/16px 16px}
+.pair figcaption{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cred{font-size:13px;color:var(--muted);margin-top:22px}
+/* tailoring */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:44px;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:16px;display:grid;gap:8px;align-content:start}
+.steps li::before{content:"Step " counter(s);font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.steps h3{font-size:21px}
+.steps p{font-size:15.5px;color:var(--muted)}
+/* status */
+.status{background:var(--surface);border-block:1px solid var(--line)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,4vw,56px);margin-top:44px}
+.col h3{margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.pill{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:4px 10px}
+.pill.on{background:var(--accent);color:var(--accent-ink)}
+.pill.next{border:1px solid var(--ink)}
+.col ul{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.col li{padding:13px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr);gap:2px}
+.col li strong{font-weight:600}
+.col li span{color:var(--muted);font-size:15.5px}
+/* cta */
+.cta{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:end}
+.cta h2 span{color:var(--accent)}
+.ask{display:grid;gap:12px;padding:0;margin:0;list-style:none}
+.ask li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.ask b{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+footer{border-top:1px solid var(--line);padding-block:28px 40px;font-size:13.5px;color:var(--muted)}
+footer .wrap{display:grid;gap:6px}
+@media (max-width:980px){
+  .hero-grid,.looks-grid,.cta,.cols,.pairs{grid-template-columns:minmax(0,1fr)}
+  .inputs{grid-template-columns:minmax(0,1fr)}
+  .vids,.specs,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .outputs{grid-template-columns:minmax(0,1fr)}.plus{display:none}
+  .sheet{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .vids,.specs,.steps{grid-template-columns:minmax(0,1fr)}
+  .vids{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .trio figure:nth-child(n){transform:none}
+  .pair{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  nav{gap:2px 14px}
+  .top .wrap{flex-wrap:nowrap;gap:12px;min-height:54px}
+  .brand{flex:none}
+  nav{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#top"><i></i>Post Hub</a>
+  <nav aria-label="Sections"><a href="#how">How it works</a><a href="#looks">Looks</a><a href="#formats">Reels</a><a href="#carousels">Carousels</a><a href="#photos">Photos</a><a href="#tailor">For you</a><a href="#status">Status</a></nav>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <p class="label"><b>Content automation</b> for brand social accounts</p>
+    <h1 style="margin-top:18px">One catalog.<br><span>Every brand's</span> own look.</h1>
+    <p class="lead">Post Hub turns a product catalog and a brand kit into feed posts, reels, GIFs and swipe carousels. The look comes from the brand, so the same product never looks the same twice.</p>
+    <ul class="facts"><li>10 post templates</li><li>3 carousel styles</li><li>Feed, square, story, reel</li><li>EN · PL · RU texts</li><li>Phone photos to cut-outs</li></ul>
+    <p class="note">Everything on this page is demo data: a simulated phone catalog and three fictional brands. Your catalog and brand replace them.</p>
+  </div>
+  <div class="trio" aria-label="The same product in three brand looks">
+    <figure><img src="assets/looks/volt-aurora.jpg" alt="Phone post in a dark neon brand look" width="640" height="800"><figcaption>Volt</figcaption></figure>
+    <figure><img src="assets/looks/linen-editorial.jpg" alt="Phone post in a warm editorial brand look" width="640" height="800"><figcaption>Linen &amp; Co</figcaption></figure>
+    <figure><img src="assets/looks/pop-brutal.jpg" alt="Phone post in a loud playful brand look" width="640" height="800"><figcaption>POP!</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="how-head">
+    <p class="label"><b>How it works</b></p>
+    <h2>Three inputs make every post.</h2>
+    <p class="lead">A company brings its products and its brand code. A template decides the layout. Change any one of the three and the rest stays put.</p>
+  </div>
+  <div class="inputs">
+    <div class="card"><p class="label"><b>1</b>Catalog</p><h3>Products</h3><p>Pictures plus names, specs and texts in each language.</p>
+<pre>catalog/acme/model-x/
+  model-x-0.png
+  product.js
+    name, ghost, group
+    en / pl / ru:
+      desc, chips[3],
+      info.rows[4]</pre></div>
+    <div class="card"><p class="label"><b>2</b>Brand kit</p><h3>The brand code</h3><p>Colours, fonts, corner style, logo and voice, written once.</p>
+<pre>brands/acme/brand.js
+  colors: bg, ink,
+    accent, accent2 …
+  fonts: display, body
+  radius: 24
+  logo: mark + wordmark
+  cta: en / pl / ru</pre></div>
+    <div class="card"><p class="label"><b>3</b>Template</p><h3>The layout family</h3><p>Ten post styles and three carousel styles, all brand-neutral.</p>
+<pre>templates/aurora
+templates/bento
+templates/editorial
+templates/brutal
+…
+carousels/panorama</pre></div>
+  </div>
+  <div class="outputs">
+    <div class="plus" aria-hidden="true">→</div>
+    <div class="outbox"><strong>Ready-to-post files</strong><span>Stills</span><span>7 s video loops</span><span>GIFs</span><span>Reels 9:16</span><span>Carousels</span></div>
+  </div>
+</div></section>
+
+<section id="looks" class="looks"><div class="wrap">
+  <p class="label"><b>Looks</b></p>
+  <h2 style="margin-top:14px">Same phone. Pick a brand, pick a style.</h2>
+  <p class="lead" style="margin-top:18px">Each brand kit below holds only colours, fonts and a logo. Every one of the ten templates picks them up on its own.</p>
+  <div class="looks-grid">
+    <div class="pick">
+      <div role="tablist" aria-label="Brand" class="tabs" id="brandTabs"></div>
+      <div class="kit" id="kit"></div>
+    </div>
+    <div class="stage">
+      <div class="shot"><img id="shot" src="assets/looks/volt-aurora.jpg" alt="Selected look" width="640" height="800"></div>
+      <p id="shotText"></p>
+      <div class="sheet" id="sheet" role="tablist" aria-label="Template"></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="formats"><div class="wrap">
+  <p class="label"><b>Reels and loops</b></p>
+  <h2 style="margin-top:14px">Moving posts, ready for the feed.</h2>
+  <p class="lead" style="margin-top:18px">Every post can also be a seamless 7-second loop. Motions start and end at rest, so the video repeats without a jump.</p>
+  <div class="vids">
+    <figure class="vid" style="margin:0"><video src="assets/video/aurora-volt.mp4" poster="assets/video/aurora-volt.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Volt aurora loop"></video><figcaption class="label"><span>Aurora</span><span>4:5</span></figcaption></figure>
+    <figure class="vid" style="margin:0"><video src="assets/video/brutal-pop.mp4" poster="assets/video/brutal-pop.jpg" muted loop playsinline autoplay preload="metadata" aria-label="POP brutal loop"></video><figcaption class="label"><span>Brutal</span><span>4:5</span></figcaption></figure>
+    <figure class="vid" style="margin:0"><video src="assets/video/reel-linen.mp4" poster="assets/video/reel-linen.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Linen editorial reel"></video><figcaption class="label"><span>Editorial reel</span><span>9:16</span></figcaption></figure>
+    <figure class="vid" style="margin:0"><video src="assets/video/stage-volt.mp4" poster="assets/video/stage-volt.jpg" muted loop playsinline autoplay preload="metadata" aria-label="Volt stage reel"></video><figcaption class="label"><span>Stage reel</span><span>9:16</span></figcaption></figure>
+  </div>
+  <div class="specs">
+    <div class="spec"><strong>4:5 · 1:1 · 9:16</strong><span>Feed, square, story and reel sizes from one design.</span></div>
+    <div class="spec"><strong>MP4 · GIF · PNG</strong><span>Video loops, GIF exports and still posts.</span></div>
+    <div class="spec"><strong>Seconds</strong><span>to render a still. A 7-second video takes about a minute.</span></div>
+    <div class="spec"><strong>3 languages</strong><span>Texts, labels and calls to action in English, Polish and Russian.</span></div>
+  </div>
+</div></section>
+
+<section id="carousels" class="cars"><div class="wrap">
+  <div class="cars-top">
+    <p class="label"><b>Carousels</b></p>
+    <h2>Swipe posts that tell the product story.</h2>
+    <p class="lead">Cover, three key facts, a gallery slide and a call to action by default. Reorder or add slides, such as a spec table, in one line.</p>
+  </div>
+  <div role="tablist" aria-label="Carousel style" class="tabs" id="carTabs"></div>
+  <div class="strip" id="strip" tabindex="0" aria-label="Carousel slides, scroll sideways"></div>
+  <p class="cartext" id="carText"></p>
+</div></section>
+
+<section id="photos"><div class="wrap">
+  <p class="label"><b>Real-world photos</b></p>
+  <h2 style="margin-top:14px">Clients rarely have studio pictures. That is fine.</h2>
+  <p class="lead" style="margin-top:18px">A local AI model cuts the product out of an ordinary phone photo in about five seconds. The result goes through the same brand kits and templates as any other picture.</p>
+  <div class="pairs">
+    <div class="pair">
+      <figure><img src="assets/cutout/wood-photo.jpg" alt="Phone photographed on a wooden desk" loading="lazy"><figcaption>Photo on a desk</figcaption></figure>
+      <figure><img class="cut" src="assets/cutout/wood-cutout.png" alt="The phone cut out from the desk photo" loading="lazy"><figcaption>Cut out</figcaption></figure>
+      <figure><img src="assets/cutout/wood-post.jpg" alt="Finished post using the cut-out" loading="lazy"><figcaption>Finished post</figcaption></figure>
+    </div>
+    <div class="pair">
+      <figure><img src="assets/cutout/shelf-photo.jpg" alt="Phone photographed on a shop stand with people behind" loading="lazy"><figcaption>Shop stand, crowd</figcaption></figure>
+      <figure><img class="cut" src="assets/cutout/shelf-cutout.png" alt="The phone cut out from the shop photo" loading="lazy"><figcaption>Cut out</figcaption></figure>
+      <figure><img src="assets/cutout/shelf-post.jpg" alt="Finished post using the cut-out" loading="lazy"><figcaption>Finished post</figcaption></figure>
+    </div>
+  </div>
+  <p class="cred">Photos: two public-domain (CC0) images from Wikimedia Commons, listed in assets/cutout/CREDITS.txt. Tested the same way on headphones, earbuds with thin cables, and a phone in a glossy clear case.</p>
+</div></section>
+
+<section id="tailor"><div class="wrap">
+  <p class="label"><b>Made for you</b></p>
+  <h2 style="margin-top:14px">How we tailor it to your brand.</h2>
+  <ol class="steps">
+    <li><h3>You send the basics</h3><p>Logo, brand colours and fonts, or your brand guidelines. Five to ten products with whatever photos you have. The languages and formats you post in.</p></li>
+    <li><h3>We build your kit</h3><p>Your brand file, your product files and clean cut-outs from your photos, checked on every template.</p></li>
+    <li><h3>You choose the looks</h3><p>A contact sheet shows your own products in every style. You pick the ones that feel like you, or ask for something new.</p></li>
+    <li><h3>Posts start flowing</h3><p>Posts, reels and carousels from your catalog, in your look, in batches your team reviews before anything goes live.</p></li>
+  </ol>
+</div></section>
+
+<section id="status" class="status"><div class="wrap">
+  <p class="label"><b>Where it stands</b></p>
+  <h2 style="margin-top:14px">A working core, with the automation on top coming next.</h2>
+  <div class="cols">
+    <div class="col"><h3><span class="pill on">Working now</span></h3><ul>
+      <li><strong>Catalog, brand kit and template engine</strong><span>Any product on any brand on any template.</span></li>
+      <li><strong>Posts, loops, GIFs, reels and carousels</strong><span>Feed, square and 9:16 outputs in three languages.</span></li>
+      <li><strong>Photo cut-outs</strong><span>Local AI and a no-install fallback, with a quality preview.</span></li>
+      <li><strong>Brand kit from a blank file</strong><span>New company, new look, no changes to templates.</span></li>
+    </ul></div>
+    <div class="col"><h3><span class="pill next">Next</span></h3><ul>
+      <li><strong>Content plan</strong><span>Which products, which style, which day, per account.</span></li>
+      <li><strong>Captions in your voice</strong><span>Texts and hashtags drafted from your brand voice and product facts.</span></li>
+      <li><strong>Review board</strong><span>Your team approves or corrects each post before it can go out.</span></li>
+      <li><strong>Scheduled posting</strong><span>Approved posts published to your accounts on the days you choose.</span></li>
+    </ul></div>
+  </div>
+</div></section>
+
+<section><div class="wrap cta">
+  <div><h2>See it with <span>your</span> brand.</h2><p class="lead" style="margin-top:18px">Send three things and we will render a first set from your own products, in your look.</p></div>
+  <ul class="ask"><li><b>1</b><span>Your logo and brand colours</span></li><li><b>2</b><span>Three of your products, with any photos</span></li><li><b>3</b><span>The languages and formats you need</span></li></ul>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span>Post Hub is a demo. All products, brands and specs on this page are simulated.</span>
+  <span>Built with a catalog, a brand kit and a template. Open source: the repository holds the full engine, templates and demo catalog.</span>
+</div></footer>
+
+<script>
+const BRANDS = [
+  { id: 'volt', name: 'Volt', mood: 'Electric consumer tech', colors: ['#0A0B0D', '#171B22', '#C6FF3D', '#27E1C1', '#F4F6F8'], fonts: 'Space Grotesk, Inter', corners: 'Rounded', tagline: 'Power on.' },
+  { id: 'linen', name: 'Linen & Co', mood: 'Warm, editorial lifestyle', colors: ['#F2EDE4', '#E4DBCB', '#D6532B', '#E8B86B', '#1D1B17'], fonts: 'Instrument Serif, Inter', corners: 'Nearly square', tagline: 'Made to last.' },
+  { id: 'pop', name: 'POP!', mood: 'Loud, young, playful', colors: ['#FFD93D', '#FFC400', '#2B4BFF', '#FF5DA2', '#0F0F12'], fonts: 'Bricolage Grotesque, Inter', corners: 'Soft, with hard shadows', tagline: 'Fresh drop' },
+];
+const TPLS = [
+  ['aurora', 'Aurora', 'Dark glow with a centred hero product. Premium and calm, few words.'],
+  ['stage', 'Stage', 'A launch podium, a sweeping spotlight and floating spec cards.'],
+  ['bento', 'Bento', 'Rounded tiles: the product, the title and the key specs side by side.'],
+  ['swiss', 'Swiss', 'A strict grid, a huge flush-left title and a cropped product.'],
+  ['editorial', 'Editorial', 'A magazine page: giant type behind a tilted product, hairline rules.'],
+  ['soft', 'Soft', 'Soft 3D: a pillowy platform, glossy spheres and pill chips.'],
+  ['split', 'Split', 'A diagonal colour block with a tilted product crossing the edge.'],
+  ['kinetic', 'Kinetic', 'An outlined giant word and a moving ticker band cut through the picture.'],
+  ['brutal', 'Brutal', 'Loud stickers, thick outlines, hard shadows and a scrolling ticker.'],
+  ['blueprint', 'Blueprint', 'A technical sheet with leader lines from the product to its specs.'],
+];
+const CARS = [
+  ['panorama', 'Panorama', 'linen', 6, 'One continuous picture. The phone sits half on the cover and its other half appears on slide 2 when swiped, and the dotted line runs through every edge.', true],
+  ['deck', 'Deck', 'volt', 6, 'A rounded card per slide with the same header and a progress bar. Each key fact gets a full tile; the last slide is the call to action.', false],
+  ['numbered', 'Numbered', 'pop', 6, 'Editorial pages with a huge page number and one big fact per page, the product cropped by the page edge.', false],
+];
+let brand = 0, tpl = 0;
+const $ = id => document.getElementById(id);
+const mk = (tag, props = {}, kids = []) => { const e = Object.assign(document.createElement(tag), props); kids.forEach(k => e.append(k)); return e; };
+function renderBrand() {
+  const b = BRANDS[brand];
+  [...$('brandTabs').children].forEach((t, i) => t.setAttribute('aria-selected', i === brand));
+  $('kit').replaceChildren(mk('h3', { textContent: b.name }), mk('p', { textContent: b.mood, className: 'label' }),
+    mk('div', { className: 'swatches' }, b.colors.map(c => Object.assign(mk('i'), { title: c, style: 'background:' + c }))),
+    mk('dl', {}, [['Fonts', b.fonts], ['Corners', b.corners], ['Tagline', b.tagline]].flatMap(([k, v]) => [mk('dt', { textContent: k }), mk('dd', { textContent: v })])));
+  $('sheet').replaceChildren(...TPLS.map((t, i) => { const bt = mk('button', { type: 'button', title: t[1] }, [Object.assign(mk('img'), { src: `assets/looks/${b.id}-${t[0]}.jpg`, alt: t[1], loading: 'lazy' })]); bt.setAttribute('role', 'tab'); bt.setAttribute('aria-selected', i === tpl); bt.onclick = () => { tpl = i; renderShot(); }; return bt; }));
+  renderShot();
+}
+function renderShot() {
+  const b = BRANDS[brand], t = TPLS[tpl];
+  $('shot').src = `assets/looks/${b.id}-${t[0]}.jpg`; $('shot').alt = `${b.name} on the ${t[1]} template`;
+  $('shotText').replaceChildren(mk('strong', { textContent: `${b.name} on ${t[1]}. ` }), t[2]);
+  [...$('sheet').children].forEach((c, i) => c.setAttribute('aria-selected', i === tpl));
+}
+$('brandTabs').replaceChildren(...BRANDS.map((b, i) => { const t = mk('button', { type: 'button', className: 'tab', textContent: b.name }); t.setAttribute('role', 'tab'); t.onclick = () => { brand = i; renderBrand(); }; return t; }));
+renderBrand();
+let car = 0;
+function renderCar() {
+  const [id, name, , n, text, seamless] = CARS[car];
+  [...$('carTabs').children].forEach((t, i) => t.setAttribute('aria-selected', i === car));
+  $('strip').className = 'strip' + (seamless ? ' seamless' : ''); $('strip').scrollLeft = 0;
+  $('strip').replaceChildren(...Array.from({ length: n }, (_, i) => Object.assign(mk('img'), { src: `assets/carousel/${id}-${i + 1}.jpg`, alt: `${name} carousel, slide ${i + 1} of ${n}`, loading: 'lazy' })));
+  $('carText').textContent = text;
+}
+$('carTabs').replaceChildren(...CARS.map((c, i) => { const t = mk('button', { type: 'button', className: 'tab', textContent: c[1] }); t.setAttribute('role', 'tab'); t.onclick = () => { car = i; renderCar(); }; return t; }));
+renderCar();
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('video').forEach(v => { v.removeAttribute('autoplay'); v.pause(); v.controls = true; });
+</script>
+</body>
+</html>
