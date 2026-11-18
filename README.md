@@ -12,7 +12,7 @@ All shipped data is simulated (a demo product catalog and three fictional brands
 
 ### Roadmap (MVP to full solution)
 1. **Showcase** (done): `showcase/index.html`, a presentation page with brand-tailoring, template, reel, carousel and photo cut-out examples. Open it from a local web server (`node -e` one-liner or any static server) at `/showcase/`; rebuild its examples with `node showcase/build-assets.mjs`.
-2. **Tailoring playbook**: what a client provides, the steps and timing to onboard them, what they get.
+2. **Tailoring playbook** (done): `docs/tailoring-playbook.md` (phases, checklists, estimates), `docs/client-intake.md` (what the client sends) and `node studio/onboard-check.mjs <brand>` (brand kit and catalog readiness check). Review snapshot: `docs/review-notes.md`.
 3. **Pitch generator**: `studio/pitch.mjs <company>` builds a personalised demo from a client's logo, colours and a few products.
 4. **Content planning and captions**: a plan per account, captions in the brand voice.
 5. **Review and posting**: an approval board and scheduled publishing to the social accounts.

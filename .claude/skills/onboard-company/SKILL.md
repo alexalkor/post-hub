@@ -13,8 +13,9 @@ description: Add a new company to the post hub - build its brand kit from a bran
    - `defaults.tpl`: the template that suits the mood (see the look guide in the `hub-post` skill).
 3. **Catalog.** For each product: `catalog/<id>/<key>/product.js` (copy one from `catalog/demo-iphones/`: name, `ghost` = a short big word for editorial/bento, group, `en/pl/ru` with desc, 3 `chips`, `info.rows` of 4 `[label, value]`) and pictures as transparent PNGs:
    `CO=<id> node studio/product-pic.mjs <key> <file-or-url>` (removes a white background, trims, appends to `angles`). Facts only from the company's own catalog. Missing translations fall back to English.
-4. **Preview.** `node studio/gallery.mjs <key> <id>` renders the product on all templates; look at every one (text fit, contrast, logo, product size). Fix the kit, not the templates, unless a template really breaks.
-5. **Deliver.** Render 3 sample posts (different templates) and one reel. Commit on a branch `claude/onboard-<id>`.
+4. **Readiness.** `node studio/onboard-check.mjs <id> [--catalog=<co>]` must show no FAIL (contrast, fonts, logo, texts, picture transparency and size). Phases and checklists: `docs/tailoring-playbook.md`; the client's sheet: `docs/client-intake.md`.
+5. **Preview.** `node studio/gallery.mjs <key> <id>` renders the product on all templates; look at every one (text fit, contrast, logo, product size). Fix the kit, not the templates, unless a template really breaks.
+6. **Deliver.** Render 3 sample posts (different templates) and one reel. Commit on a branch `claude/onboard-<id>`.
 
 ## Client photos are rarely clean: cut-out routes (details and test results: `docs/cutout.md`)
 1. Transparent PNG already: use as is. Product on plain white: `product-pic.mjs <key> <photo> --white`.
