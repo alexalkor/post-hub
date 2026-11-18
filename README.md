@@ -2,6 +2,21 @@
 
 A blank, brand-agnostic hub that turns **a company's catalog + brand kit + a modern template** into stills, videos, GIFs and reels (feed 4:5, square 1:1, story/reel 9:16).
 
+## What this project is for
+An **MVP of a social-media content automation solution** that can be tailored to any client and shown to them with working examples:
+- **Tailor**: a client's catalog and brand code in, on-brand posts, reels and carousels out, in their own look (the shipped demo brands show three very different looks on the same products).
+- **Present**: examples per style, template and format, so a client sees how it would look and work for them before anything is built.
+- **Automate**: the path from product data to ready-to-post files; planning, captions, review and scheduling plug in on top (see the roadmap below).
+
+All shipped data is simulated (a demo product catalog and three fictional brands); no real client is named.
+
+### Roadmap (MVP to full solution)
+1. **Showcase**: a presentation page with template, brand-tailoring, carousel and reel examples, and the benefits.
+2. **Tailoring playbook**: what a client provides, the steps and timing to onboard them, what they get.
+3. **Pitch generator**: `studio/pitch.mjs <company>` builds a personalised demo from a client's logo, colours and a few products.
+4. **Content planning and captions**: a plan per account, captions in the brand voice.
+5. **Review and posting**: an approval board and scheduled publishing to the social accounts.
+
 ```
 catalog/<company>/<product>/   products: pictures + product.js (texts en / pl / ru, chips, specs)
 brands/<company>/brand.js      brand kit: colours, fonts, logo, corners, voice, defaults
