@@ -1,0 +1,10 @@
+# Same line endings on Windows and Mac, so files never show fake changes.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff2 binary
+*.pdf binary
+*.mp4 binary

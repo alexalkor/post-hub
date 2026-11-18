@@ -1,0 +1,20 @@
+/* SPLIT: a diagonal colour block cuts the page; the tilted product crosses the edge. Big stacked title and a stat list on the plain side. Bold, sporty, easy to read. */
+.post{background:var(--bg)}
+.d1{display:block;left:0;top:0;width:1080px;height:1350px;background:linear-gradient(200deg,var(--accent),color-mix(in srgb,var(--accent) 70%,var(--accent2)));clip-path:polygon(58% 0,100% 0,100% 100%,30% 100%)}
+.d2{display:block;left:0;top:0;width:1080px;height:1350px;background:var(--accent2);opacity:.35;clip-path:polygon(58% 0,64% 0,36% 100%,30% 100%)}
+.ghost{display:flex;align-items:flex-end;justify-content:flex-start;left:40px;top:760px;width:560px;height:520px;overflow:hidden;white-space:nowrap;font-family:var(--display);font-weight:var(--dw);font-size:520px;line-height:.8;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--ink) 35%,transparent)}
+.logo{left:50px;top:48px;font-size:36px;height:56px}.logo svg{color:var(--accent)}
+.meta{display:flex;gap:18px;left:580px;top:62px;width:450px;justify-content:flex-end;font-family:var(--mono);font-size:18px;letter-spacing:.14em;text-transform:uppercase;color:var(--onAccent)}
+.title{left:50px;top:160px;width:460px;height:330px;font-size:128px;line-height:.95}
+.sub{left:50px;top:510px;width:400px;height:100px;font-size:30px;font-weight:500;color:var(--muted)}
+.prod{left:430px;top:230px;width:540px;height:900px;rotate:9deg}
+.prod img{filter:drop-shadow(-30px 40px 50px rgba(0,0,0,.38))}
+.badge{display:grid;place-items:center;text-align:center;left:790px;top:160px;width:160px;height:160px;border-radius:50%;background:var(--ink);color:var(--bg);rotate:10deg;font-family:var(--display);font-weight:var(--dw);font-size:26px;line-height:1}
+.tiles{display:block}
+.t{display:flex;align-items:baseline;gap:14px;left:50px;width:380px;height:64px;border-bottom:2px solid var(--ink);flex-direction:row-reverse;justify-content:space-between}
+.t1{top:690px}.t2{top:770px}.t3{top:850px}.t4{display:none}
+.t small{font-family:var(--mono);font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.t b{font-family:var(--display);font-weight:var(--dw);font-size:40px;letter-spacing:var(--dls);white-space:nowrap}
+.cta{display:flex;align-items:center;gap:16px;left:50px;top:1180px;height:84px;padding:0 20px 0 36px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:800;font-size:28px}
+.cta i{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--accent);color:var(--onAccent);font-style:normal}
+.url{display:block;left:640px;top:1296px;width:390px;text-align:right;font-family:var(--mono);font-size:18px;letter-spacing:.1em;color:var(--onAccent)}

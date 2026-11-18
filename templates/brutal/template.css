@@ -1,0 +1,25 @@
+/* BRUTAL: neo-brutalism. Flat loud colour, thick black outlines, hard offset shadows, tilted stickers, a scrolling ticker. For young, bold brands. */
+.post{background:var(--bg)}
+.grid{display:block;background-image:radial-gradient(color-mix(in srgb,var(--ink) 22%,transparent) 2.4px,transparent 2.6px);background-size:44px 44px}
+.d1{display:block;left:110px;top:190px;width:860px;height:860px;border-radius:50%;background:var(--accent);border:7px solid var(--ink);box-shadow:16px 16px 0 var(--ink)}
+.d2{display:block;left:830px;top:810px;width:170px;height:170px;border-radius:50%;background:var(--accent2);border:7px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+.d3{display:block;left:46px;top:560px;width:92px;height:92px;background:var(--surface);border:7px solid var(--ink);box-shadow:7px 7px 0 var(--ink);rotate:18deg}
+.logo{left:40px;top:40px;height:74px;padding:0 26px;font-size:42px;background:var(--ink);color:var(--bg);border-radius:var(--r);rotate:-2.5deg;box-shadow:8px 8px 0 var(--accent)}
+.logo svg{color:var(--accent2)}
+.prod{left:290px;top:230px;width:500px;height:770px;rotate:-6deg}
+.prod img{filter:drop-shadow(16px 16px 0 var(--ink))}
+.title{display:flex;align-items:center;left:40px;top:1010px;width:1000px;height:150px;padding:0 34px;font-size:124px;line-height:1;background:var(--surface);border:7px solid var(--ink);box-shadow:14px 14px 0 var(--ink);rotate:-1.5deg;border-radius:var(--r)}
+.sub{left:50px;top:1190px;width:590px;height:64px;font-size:30px;font-weight:700;line-height:1.15}
+.chips{display:block;left:0;top:0;width:1080px;height:1350px;pointer-events:none}
+.chip{position:absolute;padding:12px 26px;border:6px solid var(--ink);border-radius:999px;background:var(--surface);box-shadow:8px 8px 0 var(--ink);font-family:var(--display);font-weight:800;font-size:34px;white-space:nowrap}
+.chip.c1{left:60px;top:300px;rotate:-8deg}
+.chip.c2{left:740px;top:570px;rotate:7deg;background:var(--accent2)}
+.chip.c3{left:80px;top:850px;rotate:-5deg;background:var(--accent);color:var(--onAccent)}
+.badge{display:grid;place-items:center;text-align:center;left:790px;top:100px;width:230px;height:230px;background:var(--accent2);color:var(--ink);rotate:12deg;font-family:var(--display);font-weight:800;font-size:26px;line-height:1;
+  clip-path:polygon(100.0% 50.0%,87.7% 60.1%,93.3% 75.0%,77.6% 77.6%,75.0% 93.3%,60.1% 87.7%,50.0% 100.0%,39.9% 87.7%,25.0% 93.3%,22.4% 77.6%,6.7% 75.0%,12.3% 60.1%,0.0% 50.0%,12.3% 39.9%,6.7% 25.0%,22.4% 22.4%,25.0% 6.7%,39.9% 12.3%,50.0% 0.0%,60.1% 12.3%,75.0% 6.7%,77.6% 22.4%,93.3% 25.0%,87.7% 39.9%)}
+.cta{display:flex;align-items:center;justify-content:center;gap:14px;left:690px;top:1184px;width:350px;height:76px;border:6px solid var(--ink);border-radius:999px;background:var(--accent);color:var(--onAccent);box-shadow:8px 8px 0 var(--ink);font-family:var(--display);font-weight:800;font-size:30px;text-transform:uppercase}
+.cta i{font-style:normal}
+.mq{display:block;left:0;top:1276px;width:1080px;height:74px;overflow:hidden;background:var(--ink);color:var(--bg)}
+.mq .track{height:100%;align-items:center}
+.mq span{font-family:var(--display);font-weight:800;font-size:38px;text-transform:uppercase;white-space:nowrap;letter-spacing:-.01em}
+.mq em{font-style:normal;color:var(--accent2);margin:0 26px;font-size:34px}

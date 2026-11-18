@@ -1,0 +1,38 @@
+/* NUMBERED: editorial story in numbered pages. Huge page number, one big fact per page, hairline rules, a vertical tagline, the product cropped by the page edge. Fashion and lifestyle feel. */
+.post{background:var(--bg)}
+.sl{overflow:hidden;background:radial-gradient(90% 60% at 15% 0%,var(--bg2),var(--bg) 65%)}
+.hd{position:static}.hd>*{position:absolute}
+.hd .logo{left:60px;top:54px;font-size:36px}.hd .logo svg{color:var(--accent)}
+.hd .count{left:60px;top:1010px;font-family:var(--display);font-weight:var(--dw);font-size:240px;line-height:1;letter-spacing:-.04em;color:var(--accent);opacity:.9}
+.hd .count i{font-size:42px;font-style:normal;letter-spacing:.04em;color:var(--muted);margin-left:14px;font-family:var(--mono);font-weight:500}
+.sl::before{content:"";position:absolute;left:60px;right:60px;top:130px;height:2px;background:var(--ink)}
+.sl::after{content:"";position:absolute;left:60px;right:60px;top:1250px;height:1px;background:var(--line)}
+.dots{left:700px;top:1280px;z-index:5}
+.last .dots,.first .dots{}
+.cover .kick{left:60px;top:158px;font-family:var(--mono);font-size:20px;letter-spacing:.16em;text-transform:uppercase}
+.cover .title{left:60px;top:210px;width:700px;height:480px;font-size:190px;line-height:.9}
+.cover .sub{left:60px;top:720px;width:420px;height:130px;font-size:30px;color:var(--muted)}
+.cover .swipe{display:flex;gap:14px;left:700px;top:1160px;font-family:var(--mono);font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.cover .swipe i{font-style:normal}
+.cover .prod{left:540px;top:300px;width:600px;height:1100px;rotate:8deg}
+.cover .prod img{filter:drop-shadow(0 30px 40px color-mix(in srgb,var(--ink) 25%,transparent))}
+.fact .num{left:60px;top:190px;width:960px;height:420px;font-size:380px;line-height:.9}
+.fact .lab{left:60px;top:640px;font-family:var(--mono);font-size:26px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);padding-top:18px;border-top:2px solid var(--accent)}
+.fact .sub{left:60px;top:730px;width:520px;height:140px;font-size:32px;color:var(--muted)}
+.fact .prod{left:620px;top:760px;width:500px;height:900px;rotate:-9deg}
+.fact .prod img{filter:drop-shadow(0 30px 40px color-mix(in srgb,var(--ink) 25%,transparent))}
+.angles .title{left:60px;top:160px;width:960px;height:130px;font-size:120px}
+.angles .lab{left:60px;top:300px;font-family:var(--mono);font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.angles .prod{left:140px;top:360px;width:800px;height:760px}
+.angles .prod img{filter:drop-shadow(0 30px 40px color-mix(in srgb,var(--ink) 25%,transparent))}
+.specs .title{left:60px;top:160px;width:960px;height:130px;font-size:120px}
+.specs .rows{left:60px;top:360px;width:560px}
+.specs .row{padding:22px 0;border-top:1px solid var(--ink)}.specs small{font-family:var(--mono);font-size:21px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}.specs b{font-family:var(--body);font-weight:600;font-size:34px}
+.specs .prod{left:680px;top:420px;width:360px;height:760px;rotate:6deg}
+.cta .title{left:60px;top:200px;width:960px;height:420px;font-size:230px;line-height:.9}
+.cta .sub{left:60px;top:650px;width:560px;height:50px;font-size:32px;color:var(--muted)}
+.cta .cta{display:flex;align-items:center;gap:14px;left:60px;top:780px;font-family:var(--mono);font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border-bottom:3px solid var(--accent);padding-bottom:8px}
+.cta .cta i{font-style:normal}
+.cta .url{left:60px;top:860px;font-family:var(--mono);font-size:21px;letter-spacing:.1em;color:var(--muted)}
+.cta .prod{left:600px;top:760px;width:440px;height:860px;rotate:7deg}
+.cta .prod img{filter:drop-shadow(0 30px 40px color-mix(in srgb,var(--ink) 25%,transparent))}

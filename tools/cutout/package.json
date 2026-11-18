@@ -1,0 +1,8 @@
+{
+  "name": "post-hub-cutout",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Optional AI background removal for product photos (local model, no cloud). Install once: npm install",
+  "dependencies": { "@imgly/background-removal-node": "1.4.5" }
+}

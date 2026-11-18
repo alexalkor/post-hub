@@ -1,0 +1,24 @@
+/* STAGE: a product launch stage. A spotlight sweep, a glowing podium, floating glass spec cards. Dramatic, suits dark brands and hero reveals. */
+.post{background:radial-gradient(90% 55% at 50% 0%,color-mix(in srgb,var(--accent) 22%,var(--bg2)),var(--bg) 70%)}
+.d1{display:block;left:190px;top:0;width:700px;height:1100px;background:linear-gradient(180deg,color-mix(in srgb,#fff 22%,transparent),transparent 85%);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);opacity:.55}
+.d2{display:block;left:150px;top:1020px;width:780px;height:170px;border-radius:50%;background:linear-gradient(180deg,color-mix(in srgb,var(--surface) 85%,#fff),var(--surface));border:2px solid color-mix(in srgb,var(--accent) 60%,transparent);box-shadow:0 0 90px color-mix(in srgb,var(--accent) 45%,transparent),inset 0 10px 30px color-mix(in srgb,#fff 18%,transparent)}
+.d3{display:block;left:260px;top:1058px;width:560px;height:96px;border-radius:50%;border:2px solid color-mix(in srgb,var(--accent) 80%,transparent);box-shadow:0 0 40px var(--accent)}
+.ring{display:block;left:100px;top:160px;width:880px;height:880px;border-radius:50%;border:0;background:conic-gradient(from 0deg,transparent 0,color-mix(in srgb,var(--accent) 38%,transparent) 8%,transparent 22%,transparent 100%);-webkit-mask:radial-gradient(closest-side,transparent 40%,#000 41%,#000 70%,transparent 71%);mask:radial-gradient(closest-side,transparent 40%,#000 41%,#000 70%,transparent 71%)}
+.ring.r2{display:none}
+.logo{left:0;width:1080px;top:48px;justify-content:center;font-size:30px;letter-spacing:.24em}.logo svg{color:var(--accent)}
+.meta{display:flex;justify-content:center;gap:24px;left:0;width:1080px;top:104px;font-family:var(--mono);font-size:17px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.title{left:40px;top:150px;width:1000px;height:120px;text-align:center;font-size:112px;line-height:1.05}
+.sub{left:140px;top:272px;width:800px;height:44px;text-align:center;font-size:29px;color:var(--muted)}
+.prod{left:334px;top:300px;width:412px;height:800px}
+.prod img{filter:drop-shadow(0 0 60px color-mix(in srgb,var(--accent) 40%,transparent))}
+.sh{display:block;left:0;right:0;bottom:-18px;height:30px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 80%,transparent),transparent);filter:blur(8px)}
+.call{display:block;width:250px;padding:16px 22px;border-radius:calc(var(--r)*.8);border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 62%,transparent);backdrop-filter:blur(14px)}
+.call b{display:block;font-family:var(--display);font-weight:var(--dw);font-size:34px;letter-spacing:var(--dls);white-space:nowrap}
+.call small{font-family:var(--mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.call::before{content:"";position:absolute;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+.call.c1,.call.c3{text-align:right}.call.c1::before,.call.c3::before{right:-5px}.call.c2::before,.call.c4::before{left:-5px}
+.call.c1{left:50px;top:430px}.call.c2{left:780px;top:540px}.call.c3{left:50px;top:720px}.call.c4{left:780px;top:830px}
+.badge{display:block;left:420px;top:1130px;padding:8px 26px;border-radius:999px;background:var(--accent);color:var(--onAccent);font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:.14em}
+.cta{display:flex;align-items:center;justify-content:center;gap:14px;left:340px;top:1224px;width:400px;height:78px;border-radius:999px;border:2px solid var(--accent);color:var(--ink);font-weight:700;font-size:26px}
+.cta i{font-style:normal;color:var(--accent)}
+.url{display:block;left:0;width:1080px;top:1314px;text-align:center;font-family:var(--mono);font-size:17px;letter-spacing:.14em;color:var(--muted)}

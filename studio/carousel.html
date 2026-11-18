@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Carousel slide</title>
+<meta name="viewport" content="width=1080">
+<!--
+  One slide of a swipe carousel (1080 x 1350). All slides sit side by side in one wide "world"; the page shows the window of slide s,
+  so a template can let things run across the slide edge (panorama) and the slides join up when swiped.
+  URL settings:  co= p= brand= lang=   car=<carousel template, carousels/<id>/carousel.css>   s=<slide index, 0-based>
+    plan=cover,fact:0,fact:1,fact:2,angles:2,cta    slide types: cover | fact:<spec row 0-3> | specs | angles:<picture index> | cta
+    title= sub= cta= url= (texts as in hub.html)
+  Rendered by studio/carousel.mjs (one PNG per slide + a contact sheet).
+-->
+<link rel="stylesheet" href="fonts/inter.css"><link rel="stylesheet" href="fonts/spacegrotesk.css"><link rel="stylesheet" href="fonts/bricolage.css">
+<link rel="stylesheet" href="fonts/instrumentserif.css"><link rel="stylesheet" href="fonts/jetbrainsmono.css"><link rel="stylesheet" href="fonts/unbounded.css"><link rel="stylesheet" href="fonts/playfair.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;overflow:hidden}
+.post{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+.world{position:absolute;left:0;top:0;height:1350px;width:calc(var(--N)*1080px);transform:translateX(calc(var(--S)*-1080px))}
+.sl{position:absolute;top:0;width:1080px;height:1350px}
+.sl>*,.world>*{position:absolute}
+.off{display:none!important}
+.gw,.pw,.rule{display:none}
+.title,.num{font-family:var(--display);font-weight:var(--dw);text-transform:var(--dcase);letter-spacing:var(--dls);line-height:1;overflow:hidden}
+.sub{line-height:1.25;overflow:hidden}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:var(--dw);letter-spacing:var(--dls);white-space:nowrap}
+.logo svg{height:1.2em;width:auto;flex:none}
+.prod img{display:block;height:100%;width:auto;margin:0 auto}
+.prod{display:block}
+.dots{display:flex;gap:10px}.dots i{display:block;width:12px;height:12px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--accent);width:34px;border-radius:8px}
+.rows{display:block}.row{display:flex;justify-content:space-between;align-items:baseline}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:var(--grain);mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.4 -.2'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+</style>
+<script>
+const Q = new URLSearchParams(location.search), pick = (k, d) => (Q.get(k) || d || '').replace(/[^a-z0-9-]/gi, '');
+window.PRODUCTS = {}; window.BRANDS = {};
+const CO = pick('co', 'demo-iphones'), BR = pick('brand', 'volt'), PK = pick('p', 'iphone-16-pro'), CAR = pick('car', 'panorama');
+document.write('<script src="../catalog/' + CO + '/' + PK + '/product.js"><\/script><script src="../brands/' + BR + '/brand.js"><\/script><link rel="stylesheet" href="../carousels/' + CAR + '/carousel.css">');
+</script>
+</head>
+<body>
+<div class="post" id="post"><div class="world" id="world"></div><div class="grain"></div></div>
+<script>
+const $ = id => document.getElementById(id), esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'), R = document.documentElement.style;
+const B = BRANDS[BR] || {}, lang = pick('lang', 'en');
+const C = Object.assign({ bg: '#f4f4f2', bg2: '#e6e6e2', ink: '#111', muted: '#666', accent: '#ff5a1f', accent2: '#ffb020', surface: '#fff', line: 'rgba(0,0,0,.14)', onAccent: '#fff' }, B.colors || {});
+for (const k in C) R.setProperty('--' + k, C[k]);
+const F = Object.assign({ display: 'Inter', body: 'Inter', mono: 'JetBrains Mono' }, B.fonts || {});
+R.setProperty('--display', `'${F.display}','Inter',sans-serif`); R.setProperty('--body', `'${F.body}','Inter',sans-serif`); R.setProperty('--mono', `'${F.mono}','JetBrains Mono',monospace`);
+R.setProperty('--r', (B.radius ?? 28) + 'px'); R.setProperty('--grain', B.grain ?? .06); R.setProperty('--dw', B.displayWeight ?? 700); R.setProperty('--dcase', B.displayCase || 'none'); R.setProperty('--dls', B.displayTracking ?? '-0.02em');
+const plan = (Q.get('plan') || 'cover,fact:0,fact:1,fact:2,angles:2,cta').split(','), N = plan.length, S = Math.min(N - 1, +(Q.get('s') || 0));
+R.setProperty('--N', N); R.setProperty('--S', S);
+$('post').classList.add('car-' + CAR, 'brand-' + BR, B.mode === 'dark' ? 'dark' : 'light');
+const d = PRODUCTS[PK] || {}, t = d[lang] || d.en || {}, rows = (t.info && t.info.rows) || [];
+const title = Q.get('title') ?? t.title ?? d.name ?? '', sub = Q.get('sub') ?? t.desc ?? '', ghost = d.ghost ?? title.split(' ')[0];
+const img = i => '../catalog/' + CO + '/' + PK + '/' + (d.angles[i] || d.angles[0]);
+const SWIPE = { en: 'Swipe', pl: 'Przesuń', ru: 'Листайте' }[lang] || 'Swipe';
+const cta = Q.get('cta') ?? ((B.cta || {})[lang] || (B.cta || {}).en || ''), url = Q.get('url') ?? B.url ?? '';
+const L = B.logo || {}, logo = `<div class="logo">${L.mark || ''}<span>${esc(L.text || B.name || '')}</span></div>`;
+const pad = n => String(n).padStart(2, '0');
+// decor elements of the world (templates use them for backgrounds that run across slides)
+$('world').innerHTML = '<div class="pw pw1"></div><div class="pw pw2"></div><div class="pw pw3"></div><div class="pw pw4"></div><div class="rule"></div><div class="gw" id="gw"></div>';
+$('gw').textContent = [ghost, ghost, ghost].join('  ');
+plan.forEach((p, i) => {
+  const [type, arg] = p.split(':'), a = +(arg ?? 0), el = document.createElement('section');
+  el.className = 'sl ' + type + (i === 1 ? ' first' : '') + (i === N - 1 ? ' last' : ''); el.style.left = i * 1080 + 'px';
+  const hd = `<div class="hd">${logo}<div class="count">${pad(i + 1)}<i>/${pad(N)}</i></div></div><div class="dots">${plan.map((_, j) => `<i${j === i ? ' class="on"' : ''}></i>`).join('')}</div>`;
+  let body = '';
+  if (type === 'cover') body = `<div class="kick">${esc(t.group || '')}</div><div class="title fit" id="t${i}">${esc(title)}</div><div class="sub">${esc(sub)}</div><div class="swipe"><span>${esc(SWIPE)}</span><i>→</i></div><div class="prod"><img src="${img(0)}" alt=""></div>`;
+  else if (type === 'fact') { const r = rows[a] || ['', '']; body = `<div class="num fit">${esc(r[1])}</div><div class="lab">${esc(r[0])}</div><div class="sub">${esc(title)} · ${esc(sub)}</div><div class="prod"><img src="${img(Math.min(a, 1))}" alt=""></div>`; }
+  else if (type === 'specs') body = `<div class="title fit">${esc(title)}</div><div class="rows">${rows.map(r => `<div class="row"><small>${esc(r[0])}</small><b>${esc(r[1])}</b></div>`).join('')}</div><div class="prod"><img src="${img(0)}" alt=""></div>`;
+  else if (type === 'angles') body = `<div class="title fit">${esc(title)}</div><div class="lab">${esc(t.group || '')}</div><div class="prod"><img src="${img(a)}" alt=""></div>`;
+  else if (type === 'cta') body = `<div class="title fit">${esc(B.tagline || B.name || '')}</div><div class="sub">${esc(title)}</div><div class="cta"><span>${esc(cta)}</span><i>→</i></div><div class="url">${esc(url)}</div><div class="prod"><img src="${img(0)}" alt=""></div>`;
+  el.innerHTML = hd + body; $('world').append(el);
+});
+function adaptProds() { document.querySelectorAll('.prod').forEach(p => { const im = p.querySelector('img'), ar = im.naturalWidth / im.naturalHeight, cs = getComputedStyle(p), L = parseFloat(cs.left), T = parseFloat(cs.top), W = parseFloat(cs.width), H = parseFloat(cs.height);
+  if (!(W > 0 && H > 0 && ar > 0) || ar <= (W / H) * 1.15) return; let nw = Math.min(W * 2.3, 900), nh = nw / ar; if (nh > H) { nh = H; nw = nh * ar; }
+  p.style.left = (L + W / 2 - nw / 2) + 'px'; p.style.width = nw + 'px'; p.style.top = (T + H / 2 - nh / 2) + 'px'; p.style.height = nh + 'px'; }); }
+function fit() { adaptProds(); document.querySelectorAll('.fit').forEach(e => { for (let f = parseFloat(getComputedStyle(e).fontSize); (e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 1) && f > 30;) { f -= 4; e.style.fontSize = f + 'px'; } }); }
+const fk = getComputedStyle(document.querySelector('.fit') || document.body).fontFamily.split(',')[0].replace(/["']/g, '');
+window.ready = Promise.all([document.fonts.load('700 100px "' + fk + '"').catch(() => {}), document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))]).then(fit);
+</script>
+</body></html>

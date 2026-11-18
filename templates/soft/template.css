@@ -1,0 +1,20 @@
+/* SOFT: soft 3D / clay UI. Pillowy rounded platform, glossy spheres, pastel light, pill chips. Friendly and tactile; best on light brands. */
+.post{background:linear-gradient(160deg,var(--bg2),var(--bg) 55%)}
+.bgx i{opacity:.4;filter:blur(70px)}
+.bgx .b1{left:-160px;top:100px;width:620px;height:620px;background:var(--accent)}
+.bgx .b2{right:-180px;top:760px;width:640px;height:640px;background:var(--accent2)}
+.bgx .b3{display:none}
+.d1{display:block;left:80px;top:250px;width:920px;height:700px;border-radius:150px;background:var(--surface);box-shadow:0 50px 90px color-mix(in srgb,var(--ink) 16%,transparent),inset 0 -26px 50px color-mix(in srgb,var(--ink) 7%,transparent),inset 0 26px 50px color-mix(in srgb,#fff 70%,transparent)}
+.d2{display:block;left:790px;top:190px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 32% 28%,color-mix(in srgb,#fff 70%,var(--accent)),var(--accent) 55%,color-mix(in srgb,#000 25%,var(--accent)));box-shadow:0 30px 50px color-mix(in srgb,var(--accent) 40%,transparent)}
+.d3{display:block;left:100px;top:760px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 32% 28%,color-mix(in srgb,#fff 70%,var(--accent2)),var(--accent2) 55%,color-mix(in srgb,#000 22%,var(--accent2)));box-shadow:0 24px 40px color-mix(in srgb,var(--accent2) 40%,transparent)}
+.logo{left:0;width:1080px;top:70px;justify-content:center;font-size:38px}.logo svg{color:var(--accent)}
+.prod{left:330px;top:215px;width:420px;height:770px}
+.prod img{filter:drop-shadow(0 40px 40px color-mix(in srgb,var(--ink) 28%,transparent))}
+.sh{display:none}
+.badge{display:block;left:130px;top:300px;padding:12px 26px;border-radius:999px;background:var(--accent2);color:var(--ink);rotate:-8deg;font-weight:800;font-size:24px;letter-spacing:.06em;box-shadow:0 16px 30px color-mix(in srgb,var(--accent2) 45%,transparent)}
+.title{left:60px;top:985px;width:960px;height:120px;text-align:center;font-size:108px;line-height:1.05}
+.sub{left:160px;top:1105px;width:760px;height:44px;text-align:center;font-size:30px;color:var(--muted)}
+.chips{display:flex;align-items:flex-start;justify-content:center;gap:16px;left:40px;top:1168px;width:1000px;height:auto}
+.chip{padding:14px 28px;border-radius:999px;background:var(--surface);font-weight:700;font-size:23px;white-space:nowrap;box-shadow:0 14px 26px color-mix(in srgb,var(--ink) 12%,transparent),inset 0 -6px 12px color-mix(in srgb,var(--ink) 6%,transparent),inset 0 6px 12px color-mix(in srgb,#fff 70%,transparent)}
+.cta{display:flex;align-items:center;justify-content:center;gap:14px;left:340px;top:1262px;width:400px;height:70px;border-radius:999px;background:var(--accent);color:var(--onAccent);font-weight:800;font-size:27px;box-shadow:0 20px 34px color-mix(in srgb,var(--accent) 45%,transparent),inset 0 6px 12px color-mix(in srgb,#fff 40%,transparent)}
+.cta i{font-style:normal}

@@ -1,0 +1,21 @@
+/* SWISS: International style poster. A strict column grid, huge flush-left title, one dot of brand colour, a spec table, the product cropped by the page edge. Quiet and confident. */
+.post{background:var(--bg)}
+.grid{display:block;opacity:.55;background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:90px 100%;background-position:45px 0}
+.d1{display:block;left:850px;top:70px;width:150px;height:150px;border-radius:50%;background:var(--accent)}
+.d2{display:block;left:60px;top:70px;width:760px;height:8px;background:var(--ink)}
+.d3{display:block;left:60px;top:1230px;width:960px;height:2px;background:var(--ink)}
+.logo{left:60px;top:1262px;font-size:32px;height:44px}.logo svg{color:var(--accent)}
+.meta{display:flex;gap:24px;left:60px;top:96px;width:700px;font-family:var(--mono);font-size:18px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.title{left:60px;top:150px;width:900px;height:360px;font-size:200px;line-height:.9;letter-spacing:-.045em}
+.sub{left:60px;top:560px;width:400px;height:130px;font-size:30px;line-height:1.25}
+.prod{left:520px;top:520px;width:560px;height:1080px}
+.prod img{filter:drop-shadow(0 30px 40px color-mix(in srgb,var(--ink) 25%,transparent))}
+.badge{display:block;left:60px;top:1100px;padding:10px 0;font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:.16em;color:var(--accent);border-top:3px solid var(--accent)}
+.tiles{display:block}
+.t{display:flex;align-items:baseline;justify-content:space-between;left:60px;width:420px;height:62px;border-top:1px solid var(--ink);padding-top:8px}
+.t1{top:730px}.t2{top:792px}.t3{top:854px}.t4{top:916px}
+.t small{font-family:var(--mono);font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.t b{font-family:var(--body);font-weight:700;font-size:27px;white-space:nowrap}
+.cta{display:flex;align-items:center;gap:14px;left:60px;top:1010px;font-family:var(--display);font-weight:var(--dw);font-size:34px;letter-spacing:var(--dls);color:var(--ink)}
+.cta i{font-style:normal;color:var(--accent)}
+.url{display:block;left:290px;top:1274px;width:190px;text-align:right;font-family:var(--mono);font-size:18px;letter-spacing:.1em;color:var(--muted);z-index:2}

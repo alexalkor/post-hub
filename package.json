@@ -1,0 +1,14 @@
+{
+  "name": "post-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Post hub: company catalogs x brand kits x modern templates -> stills, videos, GIFs and reels.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "demo-data": "node studio/demo-data.mjs",
+    "render": "node studio/render.mjs",
+    "gallery": "node studio/gallery.mjs",
+    "check": "node studio/render.mjs iphone-16-pro en volt aurora _check --still"
+  }
+}

@@ -1,0 +1,47 @@
+/* PANORAMA: one continuous picture across all slides. The product starts half on the cover and its other half appears on slide 2 when swiped;
+   a flowing background, a dotted rule and a giant outlined word run through every slide edge. Premium, seamless, made to be swiped. */
+.post{background:var(--bg)}
+.world{background:linear-gradient(90deg,var(--bg) 0,color-mix(in srgb,var(--accent) 20%,var(--bg)) 22%,color-mix(in srgb,var(--accent2) 18%,var(--bg)) 55%,color-mix(in srgb,var(--accent) 14%,var(--bg)) 82%,var(--bg) 100%)}
+.pw,.rule,.gw{display:block}
+.pw{border-radius:50%;filter:blur(90px);opacity:.5}
+.pw1{left:-200px;top:620px;width:900px;height:900px;background:var(--accent)}
+.pw2{left:1500px;top:-200px;width:900px;height:900px;background:var(--accent2);opacity:.4}
+.pw3{left:3000px;top:700px;width:1000px;height:900px;background:var(--accent);opacity:.4}
+.pw4{left:4700px;top:-100px;width:1000px;height:900px;background:var(--accent2);opacity:.4}
+.rule{left:0;top:1228px;width:100%;height:14px;background:radial-gradient(circle,var(--accent) 6px,transparent 7px) 0 50%/1080px 14px repeat-x}
+.rule::before{content:"";position:absolute;left:0;right:0;top:6px;height:2px;background:var(--line)}
+.gw{left:1130px;top:760px;white-space:pre;font-family:var(--display);font-weight:var(--dw);font-size:460px;line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--ink) 22%,transparent)}
+.sl{overflow:visible}
+.hd .logo{left:60px;top:54px;font-size:34px}.hd .logo svg{color:var(--accent)}
+.hd .count{left:700px;top:60px;width:320px;text-align:right;font-family:var(--mono);font-size:22px;letter-spacing:.14em;color:var(--muted)}
+.hd .count{position:absolute}.hd{position:static}.hd>*{position:absolute}
+.hd .count i{font-style:normal;opacity:.6}
+.dots{left:60px;top:1262px}
+.cover .kick{left:60px;top:170px;font-family:var(--mono);font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.cover .title{left:60px;top:215px;width:700px;height:420px;font-size:150px;line-height:.94}
+.cover .sub{left:60px;top:660px;width:520px;height:110px;font-size:32px;color:var(--muted)}
+.cover .swipe{display:flex;align-items:center;gap:14px;left:60px;top:1130px;font-family:var(--mono);font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.cover .swipe i{font-style:normal}
+.cover .prod{left:770px;top:230px;width:490px;height:950px;rotate:5deg;z-index:3}
+.cover .prod img{filter:drop-shadow(0 40px 60px color-mix(in srgb,var(--ink) 28%,transparent))}
+.fact .num{left:60px;top:330px;width:900px;height:340px;font-size:300px;color:var(--accent);z-index:2}
+.fact.first .num,.fact.first .lab,.fact.first .sub{left:340px}
+.fact.first .num{width:680px}
+.fact .lab{left:60px;top:700px;font-family:var(--mono);font-size:28px;letter-spacing:.16em;text-transform:uppercase;z-index:2}
+.fact .sub{left:60px;top:780px;width:620px;height:120px;font-size:34px;color:var(--muted);z-index:2}
+.fact .prod{display:none}
+.angles .title{left:60px;top:150px;width:960px;height:120px;font-size:104px;text-align:center}
+.angles .lab{left:0;width:1080px;top:1160px;text-align:center;font-family:var(--mono);font-size:22px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.angles .prod{left:130px;top:290px;width:820px;height:850px}
+.angles .prod img{filter:drop-shadow(0 40px 50px color-mix(in srgb,var(--ink) 28%,transparent))}
+.specs .title{left:60px;top:160px;width:900px;height:130px;font-size:110px}
+.specs .rows{left:60px;top:360px;width:600px}
+.specs .row{padding:22px 0;border-top:1px solid var(--ink)}.specs small{font-family:var(--mono);font-size:22px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.specs b{font-family:var(--display);font-size:46px}
+.specs .prod{left:700px;top:380px;width:360px;height:760px}
+.cta .title{left:60px;top:250px;width:960px;height:360px;font-size:200px;line-height:.92}
+.cta .sub{left:60px;top:650px;width:600px;height:50px;font-size:34px;color:var(--muted)}
+.cta .cta{display:flex;align-items:center;gap:16px;left:60px;top:790px;height:92px;padding:0 24px 0 42px;border-radius:999px;background:var(--accent);color:var(--onAccent);font-weight:800;font-size:32px}
+.cta .cta i{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--bg);color:var(--ink);font-style:normal}
+.cta .url{left:60px;top:910px;font-family:var(--mono);font-size:22px;letter-spacing:.12em;color:var(--muted)}
+.cta .prod{left:660px;top:720px;width:420px;height:800px;rotate:-8deg}
+.cta .prod img{filter:drop-shadow(0 40px 50px color-mix(in srgb,var(--ink) 28%,transparent))}

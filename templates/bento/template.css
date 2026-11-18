@@ -1,0 +1,28 @@
+/* BENTO: rounded tiles in a grid (the product tile, the title tile, spec tiles, a CTA tile). Calm, modern, works for any brand. */
+.post{background:radial-gradient(120% 80% at 0% 0%,var(--bg2),var(--bg) 60%)}
+.d1,.d2,.d4,.d5{display:block;border-radius:calc(var(--r)*1.15);background:var(--surface);border:1px solid var(--line)}
+.d1{left:30px;top:110px;width:640px;height:800px;background:linear-gradient(165deg,color-mix(in srgb,var(--accent) 24%,var(--surface)),var(--surface) 70%)}
+.d2{left:690px;top:110px;width:360px;height:380px}
+.d4{left:30px;top:930px;width:640px;height:390px}
+.d5{left:690px;top:930px;width:360px;height:390px;background:var(--accent);border-color:transparent}
+.ghost{display:flex;align-items:center;justify-content:center;left:30px;top:110px;width:640px;height:800px;overflow:hidden;white-space:nowrap;
+  font-family:var(--display);font-weight:var(--dw);font-size:330px;line-height:1;letter-spacing:-.04em;color:color-mix(in srgb,var(--accent) 16%,transparent)}
+.ring{display:block;border:1.5px dashed var(--line);border-radius:50%}
+.ring.r1{left:90px;top:210px;width:520px;height:520px}
+.prod{left:90px;top:150px;width:520px;height:720px}
+.sh{display:block;left:25%;right:25%;bottom:-10px;height:34px;border-radius:50%;background:var(--ink);opacity:.18;filter:blur(18px)}
+.logo{left:36px;top:30px;height:60px;font-size:36px}.logo svg{color:var(--accent)}
+.meta{display:flex;gap:18px;left:600px;top:44px;width:450px;justify-content:flex-end;font-family:var(--mono);font-size:18px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.badge{display:block;left:722px;top:136px;padding:8px 18px;border-radius:999px;background:var(--accent2);color:var(--ink);font-family:var(--mono);font-weight:700;font-size:18px;letter-spacing:.1em}
+.title{left:722px;top:196px;width:296px;height:262px;font-size:92px;line-height:.98}
+.tiles{display:block}
+.t{display:flex;flex-direction:column;justify-content:center;gap:6px;left:690px;width:360px;height:120px;padding:0 32px;border-radius:calc(var(--r)*1.15);background:var(--surface);border:1px solid var(--line)}
+.t1{top:510px}.t2{top:650px}.t3{top:790px}
+.t small{font-family:var(--mono);font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.t b{font-family:var(--display);font-weight:var(--dw);font-size:42px;letter-spacing:var(--dls);color:var(--ink);white-space:nowrap}
+.t4{top:930px;height:390px;justify-content:flex-end;padding:0 36px 36px;background:transparent;border-color:transparent}
+.t4 small{color:color-mix(in srgb,var(--onAccent) 75%,transparent)}.t4 b{color:var(--onAccent);font-size:120px;line-height:1}
+.sub{left:72px;top:978px;width:556px;height:200px;font-size:46px;font-weight:500;letter-spacing:-.01em}
+.cta{display:flex;align-items:center;gap:18px;left:72px;top:1220px;height:76px;padding:0 14px 0 34px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:700;font-size:26px}
+.cta i{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;background:var(--accent);color:var(--onAccent);font-style:normal;font-size:26px}
+.url{display:block;left:420px;top:1245px;width:220px;text-align:right;font-family:var(--mono);font-size:18px;color:var(--muted)}

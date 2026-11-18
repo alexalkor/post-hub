@@ -1,0 +1,20 @@
+/* KINETIC: kinetic typography. An outlined giant word, a moving ticker band cutting through the picture, the product on top. Energetic; good for reels and drops. */
+.post{background:var(--bg)}
+.ghost{display:flex;align-items:center;justify-content:center;left:0;top:90px;width:1080px;height:760px;overflow:hidden;white-space:nowrap;font-family:var(--display);font-weight:var(--dw);font-size:640px;line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:3px var(--ink);opacity:.85}
+.d1{display:block;left:-140px;top:560px;width:1360px;height:200px;rotate:-8deg;background:var(--accent)}
+.mq{display:block;left:-140px;top:560px;width:1360px;height:200px;rotate:-8deg;overflow:hidden;color:var(--onAccent)}
+.mq .track{height:100%;align-items:center}
+.mq span{font-family:var(--display);font-weight:var(--dw);font-size:120px;text-transform:uppercase;white-space:nowrap;letter-spacing:-.02em;line-height:1}
+.mq em{font-style:normal;margin:0 36px;font-size:80px;color:var(--accent2)}
+.d2{display:block;left:60px;top:1000px;width:960px;height:4px;background:var(--ink)}
+.logo{left:50px;top:44px;font-size:38px;height:56px}.logo svg{color:var(--accent)}
+.meta{display:flex;gap:20px;left:600px;top:58px;width:430px;justify-content:flex-end;font-family:var(--mono);font-size:18px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.prod{left:300px;top:190px;width:480px;height:800px;rotate:6deg}
+.prod img{filter:drop-shadow(0 40px 50px rgba(0,0,0,.35))}
+.badge{display:grid;place-items:center;text-align:center;left:790px;top:230px;width:170px;height:170px;border-radius:50%;background:var(--accent2);color:var(--ink);rotate:-12deg;font-family:var(--display);font-weight:var(--dw);font-size:30px;line-height:1}
+.title{left:50px;top:1030px;width:700px;height:130px;font-size:118px;line-height:1}
+.sub{left:50px;top:1170px;width:560px;height:64px;font-size:26px;color:var(--muted)}
+.chips{display:flex;flex-direction:column;align-items:flex-end;gap:12px;left:700px;top:1040px;width:330px;height:auto}
+.chip{padding:10px 22px;border:2px solid var(--ink);border-radius:999px;font-family:var(--mono);font-size:21px;letter-spacing:.04em;white-space:nowrap;background:var(--bg)}
+.cta{display:flex;align-items:center;gap:14px;left:50px;top:1262px;padding:0;font-family:var(--display);font-weight:var(--dw);font-size:36px;text-transform:uppercase;color:var(--accent)}
+.url{display:block;left:600px;top:1272px;width:430px;text-align:right;font-family:var(--mono);font-size:19px;letter-spacing:.1em;color:var(--muted)}

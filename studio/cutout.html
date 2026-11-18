@@ -1,0 +1,110 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Cutout worker</title></head><body>
+<script>
+/* Background removal without any install: a small "GrabCut-lite" that runs in Chrome (called by studio/cutout.mjs).
+   1. The photo edge band is background, the middle box is product (or the box/roi you give).
+   2. Colour clusters (k-means in Lab) are learned for both; every pixel goes to the nearer side; the labels are smoothed (box filter);
+      then both colour models are re-learned from the sure pixels and the step repeats.
+   3. Only the biggest product blob stays; tiny enclosed holes are filled (big holes, like a headphone arc, stay see-through).
+   4. The mask is scaled up with a soft, slightly shrunk edge (no halo).
+   Works when the product differs in colour from its surroundings (desk, bedsheet, backdrop, wall). Struggles with: product colour = background colour,
+   glass / clear parts, thin cables, crowds around the product. */
+const lab = (r, g, b) => { const f = v => (v /= 255) <= .04045 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); r = f(r); g = f(g); b = f(b);
+  let x = (.4124 * r + .3576 * g + .1805 * b) / .95047, y = .2126 * r + .7152 * g + .0722 * b, z = (.0193 * r + .1192 * g + .9505 * b) / 1.08883;
+  const h = v => v > .008856 ? Math.cbrt(v) : 7.787 * v + 16 / 116; x = h(x); y = h(y); z = h(z); return [116 * y - 16, 500 * (x - y), 200 * (y - z)]; };
+function kmeans(pts, K, it = 8) {   // pts: array of [L,a,b]; returns centers with radius
+  if (!pts.length) return [];
+  K = Math.min(K, pts.length); const c = [pts[Math.floor(Math.random() * pts.length)].slice()];
+  while (c.length < K) { let best = -1, bd = -1; for (let t = 0; t < 400; t++) { const p = pts[Math.floor(Math.random() * pts.length)]; let d = 1e9; for (const q of c) d = Math.min(d, dist(p, q)); if (d > bd) { bd = d; best = p; } } c.push(best.slice()); }
+  const asg = new Int32Array(pts.length);
+  for (let i = 0; i < it; i++) {
+    for (let p = 0; p < pts.length; p++) { let bi = 0, bd = 1e9; for (let k = 0; k < c.length; k++) { const d = dist(pts[p], c[k]); if (d < bd) { bd = d; bi = k; } } asg[p] = bi; }
+    const s = c.map(() => [0, 0, 0, 0]); for (let p = 0; p < pts.length; p++) { const q = s[asg[p]]; q[0] += pts[p][0]; q[1] += pts[p][1]; q[2] += pts[p][2]; q[3]++; }
+    s.forEach((q, k) => { if (q[3]) c[k] = [q[0] / q[3], q[1] / q[3], q[2] / q[3]]; });
+  }
+  const rad = c.map(() => [0, 0]); for (let p = 0; p < pts.length; p++) { rad[asg[p]][0] += dist(pts[p], c[asg[p]]); rad[asg[p]][1]++; }
+  return c.map((q, k) => ({ c: q, r: rad[k][1] ? rad[k][0] / rad[k][1] : 5, n: rad[k][1] }));
+}
+const dist = (p, q) => Math.hypot(p[0] - q[0], (p[1] - q[1]) * 1.2, (p[2] - q[2]) * 1.2);
+function near(p, cs) { let b = 1e9; for (const k of cs) { const d = dist(p, k.c) / (k.r + 6); if (d < b) b = d; } return b; }
+function boxCount(m, w, h, r) {   // number of 1s in the (2r+1)^2 window, via a summed-area table
+  const S = new Int32Array((w + 1) * (h + 1)); for (let y = 0; y < h; y++) { let row = 0; for (let x = 0; x < w; x++) { row += m[y * w + x]; S[(y + 1) * (w + 1) + x + 1] = S[y * (w + 1) + x + 1] + row; } }
+  const o = new Int32Array(w * h); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const x0 = Math.max(0, x - r), x1 = Math.min(w, x + r + 1), y0 = Math.max(0, y - r), y1 = Math.min(h, y + r + 1);
+    o[y * w + x] = S[y1 * (w + 1) + x1] - S[y0 * (w + 1) + x1] - S[y1 * (w + 1) + x0] + S[y0 * (w + 1) + x0]; } return o;
+}
+function components(m, w, h, val) {   // 4-connected components of cells == val: returns {id, sizes, touchesBorder}
+  const id = new Int32Array(w * h).fill(-1), sizes = [], border = []; const st = new Int32Array(w * h);
+  for (let s = 0; s < w * h; s++) { if (m[s] !== val || id[s] >= 0) continue; const n = sizes.length; let sp = 0, size = 0, tb = false; st[sp++] = s; id[s] = n;
+    while (sp) { const p = st[--sp], x = p % w, y = (p / w) | 0; size++; if (x === 0 || y === 0 || x === w - 1 || y === h - 1) tb = true;
+      if (x > 0 && m[p - 1] === val && id[p - 1] < 0) { id[p - 1] = n; st[sp++] = p - 1; } if (x < w - 1 && m[p + 1] === val && id[p + 1] < 0) { id[p + 1] = n; st[sp++] = p + 1; }
+      if (y > 0 && m[p - w] === val && id[p - w] < 0) { id[p - w] = n; st[sp++] = p - w; } if (y < h - 1 && m[p + w] === val && id[p + w] < 0) { id[p + w] = n; st[sp++] = p + w; } }
+    sizes.push(size); border.push(tb); }
+  return { id, sizes, border };
+}
+window.cutout = async (dataUrl, o = {}) => {
+  const img = new Image(); img.src = dataUrl; await img.decode();
+  const sc = Math.min(1, (o.max || 1600) / Math.max(img.width, img.height)), FW = Math.round(img.width * sc), FH = Math.round(img.height * sc);
+  const full = document.createElement('canvas'); full.width = FW; full.height = FH; const fx = full.getContext('2d', { willReadFrequently: true }); fx.drawImage(img, 0, 0, FW, FH);
+  const ws = Math.min(1, 480 / Math.max(FW, FH)), w = Math.round(FW * ws), h = Math.round(FH * ws);
+  const wc = document.createElement('canvas'); wc.width = w; wc.height = h; const wx = wc.getContext('2d', { willReadFrequently: true }); wx.drawImage(full, 0, 0, w, h);
+  const px = wx.getImageData(0, 0, w, h).data, L = new Array(w * h); for (let i = 0; i < w * h; i++) L[i] = lab(px[i * 4], px[i * 4 + 1], px[i * 4 + 2]);
+  const roi = o.roi || [0, 0, 1, 1], box = o.box || [roi[0] + (roi[2] - roi[0]) * .3, roi[1] + (roi[3] - roi[1]) * .3, roi[0] + (roi[2] - roi[0]) * .7, roi[1] + (roi[3] - roi[1]) * .7];
+  const band = Math.max(4, Math.round(.03 * Math.min(w, h))), inRoi = (x, y) => x >= roi[0] * w && x < roi[2] * w && y >= roi[1] * h && y < roi[3] * h, inBox = (x, y) => x >= box[0] * w && x < box[2] * w && y >= box[1] * h && y < box[3] * h;
+  // the background colours = the biggest colour clusters of the photo edge band (bits of product touching the edge are too few to count)
+  const inBand = (x, y) => x < band || y < band || x >= w - band || y >= h - band, bandPts = [];
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (!inRoi(x, y) || inBand(x, y)) bandPts.push(L[y * w + x]);
+  const bs0 = kmeans(bandPts.filter((_, i) => i % Math.max(1, Math.floor(bandPts.length / 3000)) === 0), 5), tot = bs0.reduce((t, k) => t + k.n, 0);
+  let bgc0 = bs0.filter(k => k.n >= .08 * tot); if (!bgc0.length) bgc0 = [bs0.sort((p, q) => q.n - p.n)[0]];
+  if (o.bg) {   // you name the background: only the edge clusters close to that colour count (a product touching the edge is then not mistaken for background)
+    const named = { white: [255, 255, 255], light: [225, 225, 225], dark: [30, 30, 30], black: [0, 0, 0] }, rgb = named[o.bg] || [parseInt(o.bg.slice(1, 3), 16), parseInt(o.bg.slice(3, 5), 16), parseInt(o.bg.slice(5, 7), 16)], t = lab(...rgb);
+    const close = bs0.filter(k => dist(k.c, t) < 28); bgc0 = close.length ? close : [{ c: t, r: 10, n: 1 }]; }
+  const forced = new Uint8Array(w * h);   // 1 = sure background
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x; if (!inRoi(x, y) || (!o.keepEdge && inBand(x, y) && near(L[i], bgc0) < (o.thr || 2.2))) forced[i] = 1; }
+  // first guess of the product: what is clearly unlike the background (or your --box)
+  let lab0 = new Uint8Array(w * h);
+  if (o.box) { for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) lab0[y * w + x] = inBox(x, y) && !forced[y * w + x] ? 1 : 0; }
+  else { for (let i = 0; i < w * h; i++) lab0[i] = !forced[i] && near(L[i], bgc0) > (o.thr || 2.2) ? 1 : 0; const c0 = boxCount(lab0, w, h, 3); for (let i = 0; i < w * h; i++) lab0[i] = c0[i] > 24 ? 1 : 0;
+    if (lab0.reduce((t, v) => t + v, 0) < .01 * w * h) { for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) lab0[y * w + x] = inBox(x, y) ? 1 : 0; } }
+  let sureFg = lab0.slice(), sureBg = forced.slice(); let mask = lab0;
+  const K = o.k || 6, bias = o.bias || 1;
+  const sample = (flag, n) => { const idx = []; for (let i = 0; i < w * h; i++) if (flag[i]) idx.push(i); const out = []; const step = Math.max(1, Math.floor(idx.length / n)); for (let i = 0; i < idx.length; i += step) out.push(L[idx[i]]); return out; };
+  for (let iter = 0; iter < 5; iter++) {
+    const bgc = kmeans(sample(sureBg, 3000), K), fgc = kmeans(sample(sureFg, 3000), K);
+    if (!bgc.length || !fgc.length) break;
+    const m = new Uint8Array(w * h); for (let i = 0; i < w * h; i++) m[i] = forced[i] ? 0 : (near(L[i], fgc) * bias < near(L[i], bgc) ? 1 : 0);
+    const c = boxCount(m, w, h, 3); for (let i = 0; i < w * h; i++) m[i] = forced[i] ? 0 : (c[i] > 24 ? 1 : 0);   // smooth: majority of a 7x7 window
+    mask = m;
+    const e = boxCount(m, w, h, 3), nb = boxCount(m.map(v => 1 - v), w, h, 3);
+    sureFg = new Uint8Array(w * h); sureBg = new Uint8Array(w * h); for (let i = 0; i < w * h; i++) { if (e[i] === 49) sureFg[i] = 1; if (nb[i] === 49 || forced[i]) sureBg[i] = 1; }
+    if (!sureFg.some(v => v)) break;
+  }
+  // biggest product blob only; small enclosed holes filled
+  let cp = components(mask, w, h, 1), big = -1, bs = 0; cp.sizes.forEach((s, i) => { if (s > bs) { bs = s; big = i; } });
+  const comps = cp.sizes.filter(s => s > .001 * w * h).length; let m2 = new Uint8Array(w * h); for (let i = 0; i < w * h; i++) m2[i] = (cp.id[i] === big || (o.all && cp.id[i] >= 0 && cp.sizes[cp.id[i]] > .004 * w * h)) ? 1 : 0;
+  // closing (grow, then shrink back): fills bright reflections and screens that look like the background; gaps wider than 2x the radius stay open
+  const cr = o.close ?? 16;
+  if (cr > 0) { const dl = boxCount(m2, w, h, cr), full = (2 * cr + 1) * (2 * cr + 1), d = new Uint8Array(w * h); for (let i = 0; i < w * h; i++) d[i] = dl[i] > 0 ? 1 : 0;
+    const er = boxCount(d, w, h, cr), c2 = new Uint8Array(w * h); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = y * w + x, x0 = Math.max(0, x - cr), x1 = Math.min(w, x + cr + 1), y0 = Math.max(0, y - cr), y1 = Math.min(h, y + cr + 1); c2[i] = er[i] === (x1 - x0) * (y1 - y0) || m2[i] ? 1 : 0; }
+    const sm = boxCount(c2, w, h, 3); m2 = new Uint8Array(w * h); for (let i = 0; i < w * h; i++) m2[i] = sm[i] > 24 ? 1 : 0; }
+  const hb = components(m2, w, h, 0); for (let i = 0; i < w * h; i++) if (m2[i] === 0 && !hb.border[hb.id[i]] && hb.sizes[hb.id[i]] < (o.hole ?? .006) * w * h) m2[i] = 1;
+  // solidity (area / convex hull area) and the optional hull fill
+  const pts = []; for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (m2[y * w + x] && (x === 0 || y === 0 || !m2[y * w + x - 1] || !m2[y * w + x + 1] || !m2[(y - 1) * w + x] || !m2[(y + 1) * w + x])) pts.push([x, y]);
+  pts.sort((p, q) => p[0] - q[0] || p[1] - q[1]); const cr2 = (o_, a_, b_) => (a_[0] - o_[0]) * (b_[1] - o_[1]) - (a_[1] - o_[1]) * (b_[0] - o_[0]);
+  const lo = [], up = []; for (const p of pts) { while (lo.length > 1 && cr2(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop(); lo.push(p); } for (const p of [...pts].reverse()) { while (up.length > 1 && cr2(up[up.length - 2], up[up.length - 1], p) <= 0) up.pop(); up.push(p); }
+  const hull = lo.slice(0, -1).concat(up.slice(0, -1)); let harea = 0; for (let i = 0; i < hull.length; i++) { const p = hull[i], q = hull[(i + 1) % hull.length]; harea += p[0] * q[1] - q[0] * p[1]; } harea = Math.abs(harea) / 2;
+  let area0 = 0; for (let i = 0; i < w * h; i++) area0 += m2[i]; const solidity = harea ? area0 / harea : 1;
+  if (o.hull && hull.length > 2) { const hc = document.createElement('canvas'); hc.width = w; hc.height = h; const hx = hc.getContext('2d'); hx.fillStyle = '#fff'; hx.beginPath(); hull.forEach((p, i) => i ? hx.lineTo(p[0] + .5, p[1] + .5) : hx.moveTo(p[0] + .5, p[1] + .5)); hx.closePath(); hx.fill();
+    const hd = hx.getImageData(0, 0, w, h).data; for (let i = 0; i < w * h; i++) m2[i] = hd[i * 4 + 3] > 127 ? 1 : 0; }
+  // metrics
+  let fg = 0, bfg = 0, bn = 0, x0 = w, y0 = h, x1 = 0, y1 = 0; for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const v = m2[y * w + x]; if (v) { fg++; x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+    if (x === 0 || y === 0 || x === w - 1 || y === h - 1) { bn++; bfg += v; } }
+  // soft edge at full size
+  const mc = document.createElement('canvas'); mc.width = w; mc.height = h; const mx = mc.getContext('2d'), mi = mx.createImageData(w, h); for (let i = 0; i < w * h; i++) { mi.data[i * 4 + 3] = m2[i] * 255; mi.data[i * 4] = mi.data[i * 4 + 1] = mi.data[i * 4 + 2] = 255; } mx.putImageData(mi, 0, 0);
+  const sc2 = document.createElement('canvas'); sc2.width = FW; sc2.height = FH; const sx = sc2.getContext('2d', { willReadFrequently: true }); sx.imageSmoothingQuality = 'high'; sx.filter = 'blur(' + Math.max(1.2, FW / 500) + 'px)'; sx.drawImage(mc, 0, 0, FW, FH);
+  const al = sx.getImageData(0, 0, FW, FH).data, od = fx.getImageData(0, 0, FW, FH), th = o.shrink ?? .55;
+  for (let i = 0; i < FW * FH; i++) { const a = al[i * 4 + 3] / 255; od.data[i * 4 + 3] = Math.max(0, Math.min(255, ((a - th) * 3.2 + .5) * 255)); }
+  fx.putImageData(od, 0, 0);
+  return { png: full.toDataURL('image/png'), w: FW, h: FH, fgFrac: fg / (w * h), borderFg: bn ? bfg / bn : 0, comps, solidity, bbox: [x0 / w, y0 / h, (x1 + 1) / w, (y1 + 1) / h] };
+};
+window.ready = true;
+</script></body></html>

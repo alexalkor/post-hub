@@ -1,0 +1,28 @@
+/* BLUEPRINT: technical spec sheet. Fine grid, corner crop marks, mono labels and leader lines from the product to its specs. For tech and industrial brands. */
+.post{background:var(--bg)}
+.grid{display:block;opacity:.7;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:54px 54px}
+.d1,.d2,.d3,.d4{display:block;width:44px;height:44px;border:3px solid var(--accent)}
+.d1{left:30px;top:30px;border-right:0;border-bottom:0}.d2{left:1006px;top:30px;border-left:0;border-bottom:0}
+.d3{left:30px;top:1276px;border-right:0;border-top:0}.d4{left:1006px;top:1276px;border-left:0;border-top:0}
+.d5{display:block;left:80px;top:1176px;width:920px;height:2px;background:var(--ink)}
+.logo{left:80px;top:64px;font-size:34px;height:50px}.logo svg{color:var(--accent)}
+.meta{display:flex;justify-content:flex-end;gap:24px;left:560px;top:74px;width:440px;font-family:var(--mono);font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.title{left:80px;top:150px;width:640px;height:116px;font-size:100px;line-height:1.02}
+.sub{left:80px;top:276px;width:520px;height:68px;font-size:25px;color:var(--muted)}
+.badge{display:block;left:760px;top:160px;width:240px;padding:12px 0;text-align:center;border:2px solid var(--accent);color:var(--accent);font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:.16em}
+.ring{display:block;border:2px dashed color-mix(in srgb,var(--accent) 55%,transparent);border-radius:50%}
+.ring.r1{left:190px;top:390px;width:700px;height:700px}
+.prod{left:339px;top:350px;width:402px;height:780px}
+.sh{display:block;left:6%;right:6%;bottom:-6px;height:28px;border-radius:50%;background:var(--ink);opacity:.25;filter:blur(16px)}
+.call{display:block;width:230px;font-family:var(--mono)}
+.call b{display:block;font-family:var(--display);font-weight:var(--dw);font-size:40px;letter-spacing:var(--dls);white-space:nowrap}
+.call small{font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.call::before,.call::after{content:"";position:absolute;top:26px;height:2px;background:var(--accent);animation:draw 1s .7s cubic-bezier(.2,.8,.2,1) both}
+.call.c1,.call.c3{text-align:right}.call.c2,.call.c4{text-align:left}
+.call.c1::after,.call.c3::after{right:-120px;width:112px;transform-origin:left}
+.call.c2::before,.call.c4::before{left:-120px;width:112px;transform-origin:right}
+.call.c1{left:76px;top:470px}.call.c2{left:790px;top:580px}.call.c3{left:76px;top:790px}.call.c4{left:790px;top:900px}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.cta{display:flex;align-items:center;gap:16px;left:80px;top:1210px;padding:16px 28px;border:2px solid var(--accent);color:var(--accent);font-family:var(--mono);font-weight:700;font-size:21px;letter-spacing:.14em;text-transform:uppercase}
+.cta i{font-style:normal}
+.url{display:block;left:600px;top:1226px;width:400px;text-align:right;font-family:var(--mono);font-size:19px;letter-spacing:.1em;color:var(--muted)}

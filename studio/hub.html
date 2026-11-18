@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Post hub</title>
+<meta name="viewport" content="width=1080">
+<!--
+  One page, three inputs: a company catalog (products), a brand kit (colours, fonts, logo, voice) and a template (the layout family).
+  Any product x any brand x any template works. URL settings:
+    co=<catalog>   p=<product key>   lang=en|pl|ru   brand=<brand id, brands/<id>/brand.js>   tpl=<template id, templates/<id>/template.css>
+    fmt=4:5|3:4|1:1|9:16   motion=float|sway|hover3d|pulse|drift|none   tm=rise|fade|pop|none (text intro)   a=<picture index>
+    title= sub= c1= c2= c3= (texts)   n=<0-4> tiles/chips shown   cta=<text>   badge=new|hit|<text>   ghost=<big background word>   still=1 (finished frame)
+  Contract with studio/render.mjs: window.ready (a promise) and window.seek(ms). Every motion loops in 7 s (or 3.5 s), so a video loops without a jump.
+-->
+<link rel="stylesheet" href="fonts/inter.css"><link rel="stylesheet" href="fonts/spacegrotesk.css"><link rel="stylesheet" href="fonts/bricolage.css">
+<link rel="stylesheet" href="fonts/instrumentserif.css"><link rel="stylesheet" href="fonts/jetbrainsmono.css"><link rel="stylesheet" href="fonts/unbounded.css"><link rel="stylesheet" href="fonts/playfair.css">
+<link rel="stylesheet" href="base.css">
+<script>
+const Q = new URLSearchParams(location.search), pick = (k, d) => (Q.get(k) || d || '').replace(/[^a-z0-9-]/gi, '');
+window.PRODUCTS = {}; window.BRANDS = {};
+const CO = pick('co', 'demo-iphones'), BR = pick('brand', 'volt'), PK = pick('p', 'iphone-16-pro');
+document.write('<script src="../catalog/' + CO + '/' + PK + '/product.js"><\/script><script src="../brands/' + BR + '/brand.js"><\/script>');
+</script>
+<script>
+const B = BRANDS[BR] || {}, DEF = B.defaults || {};
+const TPL = pick('tpl', DEF.tpl || 'bento'), MOTION = pick('motion', DEF.motion || 'float'), TM = pick('tm', DEF.tm || 'rise');
+document.write('<link rel="stylesheet" href="../templates/' + TPL + '/template.css">');
+</script>
+</head>
+<body>
+<div class="post" id="post">
+  <div class="bgx"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+  <div class="grid"></div>
+  <div class="canvas" id="canvas">
+    <div class="d d1"></div><div class="d d2"></div><div class="d d3"></div><div class="d d4"></div><div class="d d5"></div><div class="d d6"></div>
+    <div class="ghost" id="ghost"></div>
+    <div class="mq"><div class="track" id="mq"></div></div>
+    <div class="ring r1"></div><div class="ring r2"></div>
+    <div class="prod" id="prod"><div class="sh"></div><div class="pw"><img id="img" alt=""></div></div>
+    <div class="logo in" id="logo"></div>
+    <div class="meta in" id="meta"></div>
+    <div class="title in" id="title"></div>
+    <div class="sub in" id="sub"></div>
+    <div class="chips" id="chips"></div>
+    <div class="tiles" id="tiles"></div>
+    <div class="call c1"></div><div class="call c2"></div><div class="call c3"></div><div class="call c4"></div>
+    <div class="badge in" id="badge"></div>
+    <div class="cta in" id="cta"></div>
+    <div class="url in" id="url"></div>
+  </div>
+  <div class="grain"></div>
+</div>
+<script>
+const $ = id => document.getElementById(id), esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const lang = pick('lang', 'en'), post = $('post'), R = document.documentElement.style;
+const FM = { '4:5': [1080, 1350, 1, 0, 0], '3:4': [1080, 1440, 1, 0, 45], '1:1': [1080, 1080, .8, 108, 0], '9:16': [1080, 1920, 1, 0, 285] };
+const fm = FM[Q.get('fmt') || '4:5'] || FM['4:5'];
+R.setProperty('--W', fm[0] + 'px'); R.setProperty('--H', fm[1] + 'px'); R.setProperty('--sc', fm[2]); R.setProperty('--sx', fm[3] + 'px'); R.setProperty('--sy', fm[4] + 'px');
+// brand kit -> CSS variables, so every template works with every brand
+const C = Object.assign({ bg: '#f4f4f2', bg2: '#e6e6e2', ink: '#111', muted: '#666', accent: '#ff5a1f', accent2: '#ffb020', surface: '#fff', line: 'rgba(0,0,0,.14)', onAccent: '#fff' }, B.colors || {});
+for (const k in C) R.setProperty('--' + k, C[k]);
+const F = Object.assign({ display: 'Inter', body: 'Inter', mono: 'JetBrains Mono' }, B.fonts || {});
+R.setProperty('--display', `'${F.display}','Inter',sans-serif`); R.setProperty('--body', `'${F.body}','Inter',sans-serif`); R.setProperty('--mono', `'${F.mono}','JetBrains Mono',monospace`);
+R.setProperty('--r', (B.radius ?? 28) + 'px'); R.setProperty('--grain', B.grain ?? .06); R.setProperty('--dw', B.displayWeight ?? 700); R.setProperty('--dcase', B.displayCase || 'none'); R.setProperty('--dls', B.displayTracking ?? '-0.02em');
+post.classList.add('tpl-' + TPL, 'm-' + MOTION, 'tm-' + TM, 'brand-' + BR, (B.mode === 'dark' ? 'dark' : 'light'));
+if (Q.get('still')) post.classList.add('still');
+// product
+const d = PRODUCTS[PK] || {}, t = d[lang] || d.en || {};
+const ai = +(Q.get('a') || 0), file = d.angles && (d.angles[ai] || d.angles[0]);
+if (!file) throw new Error('Unknown product "' + PK + '" in catalog "' + CO + '". Add catalog/' + CO + '/' + PK + '/product.js');
+$("img").src = '../catalog/' + CO + '/' + PK + '/' + file;
+const title = Q.get('title') ?? t.title ?? d.name ?? '', sub = Q.get('sub') ?? t.desc ?? '';
+const ghost = Q.get('ghost') ?? d.ghost ?? title.split(' ')[0];
+$('title').textContent = title; $('sub').textContent = sub; $('ghost').textContent = ghost; $('sub').classList.toggle('off', !sub);
+const L = (B.logo || {}); $('logo').innerHTML = (L.mark || '') + `<span>${esc(L.text || B.name || '')}</span>`;
+$('meta').innerHTML = `<span>${esc(Q.get('meta') ?? (d.group ? (t.group || d.group) : ''))}</span><span>${esc(new Date().getFullYear())}</span>`;
+const cta = Q.get('cta') ?? ((B.cta || {})[lang] || (B.cta || {}).en || ''); $('cta').innerHTML = `<span>${esc(cta)}</span><i>→</i>`; $('cta').classList.toggle('off', !cta);
+$('url').textContent = Q.get('url') ?? B.url ?? ''; $('url').classList.toggle('off', !$('url').textContent);
+const BADGE = { new: { en: 'NEW', pl: 'NOWOŚĆ', ru: 'НОВИНКА' }, hit: { en: 'BESTSELLER', pl: 'HIT', ru: 'ХИТ' }, stock: { en: 'IN STOCK', pl: 'DOSTĘPNE', ru: 'В НАЛИЧИИ' } }, bd = Q.get('badge');
+$('badge').textContent = bd ? ((BADGE[bd] || {})[lang] || bd) : ''; $('badge').classList.toggle('off', !bd);
+// spec tiles from product.js <lang>.info.rows = [[label, value], ...] ; chips from <lang>.chips
+const rows = (t.info && t.info.rows) || [], n = Math.min(4, +(Q.get('n') ?? 4));
+$('tiles').innerHTML = rows.slice(0, 4).map((r, i) => `<div class="t in t${i + 1}${i >= n ? ' off' : ''}" data-i="${i}"><small>${esc(r[0])}</small><b>${esc(r[1])}</b></div>`).join('');
+const chips = [1, 2, 3].map(i => Q.get('c' + i) ?? (t.chips || [])[i - 1] ?? '').filter(Boolean);
+$('chips').innerHTML = chips.map((c, i) => `<div class="chip in c${i + 1}">${esc(c)}</div>`).join('');
+$('mq').innerHTML = Array(8).fill(`<span>${esc(title)}</span><em>✦</em><span>${esc(B.tagline || B.name || '')}</span><em>✦</em>`).join('');
+['.call.c1', '.call.c2', '.call.c3', '.call.c4'].forEach((s, i) => { const el = document.querySelector(s), r = rows[i]; el.innerHTML = r ? `<b>${esc(r[1])}</b><small>${esc(r[0])}</small>` : ''; el.classList.toggle('off', !r || i >= n); });
+// intro order for the staggered text motion
+document.querySelectorAll('.in').forEach((e, i) => e.style.setProperty('--i', i));
+// wide products (a wallet case, a tilted phone, a long cable) get a wider, shorter box around the same centre, so they are not cropped; tall ones keep the template's box
+function adaptProd() {
+  const p = $('prod'), im = $('img'), ar = im.naturalWidth / im.naturalHeight, cs = getComputedStyle(p), L = parseFloat(cs.left), T = parseFloat(cs.top), W = parseFloat(cs.width), H = parseFloat(cs.height);
+  if (!(W > 0 && H > 0 && ar > 0) || ar <= (W / H) * 1.15) return;
+  let nw = Math.min(W * 2.3, 1000), nh = nw / ar; if (nh > H) { nh = H; nw = nh * ar; }
+  p.style.left = (L + W / 2 - nw / 2) + 'px'; p.style.width = nw + 'px'; p.style.top = (T + H / 2 - nh / 2) + 'px'; p.style.height = nh + 'px';
+}
+// shrink long titles so any text fits its box
+function fit() {
+  post.classList.add('nofx'); adaptProd();
+  document.querySelectorAll('.t b,.call b').forEach(e => { for (let f = parseFloat(getComputedStyle(e).fontSize); e.scrollWidth > e.clientWidth + 1 && f > 16;) { f -= 2; e.style.fontSize = f + 'px'; } });
+  for (const [id, min] of [['title', 36], ['sub', 18]]) {
+    const e = $(id); if (getComputedStyle(e).display === 'none') continue;
+    for (let f = parseFloat(getComputedStyle(e).fontSize); (e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 1) && f > min;) { f -= 3; e.style.fontSize = f + 'px'; }
+  }
+  // the big background word is sized to fill its box width (condensed fonts and short words grow, long words shrink), capped at 640 px
+  const g = $('ghost');
+  if (getComputedStyle(g).display !== 'none' && g.textContent) {
+    const cs = getComputedStyle(g), ctx = document.createElement('canvas').getContext('2d'); ctx.font = `${cs.fontWeight} 100px ${cs.fontFamily}`;
+    const em = ctx.measureText(g.textContent).width / 100 - 0.04 * g.textContent.length;
+    g.style.fontSize = Math.max(120, Math.min(640, g.clientWidth * 0.96 / em)) + 'px';
+  }
+  post.classList.remove('nofx');
+}
+window.seek = ms => document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; });
+const fontKey = getComputedStyle($('title')).fontFamily.split(',')[0].replace(/["']/g, '');
+window.ready = Promise.all([document.fonts.load('700 100px "' + fontKey + '"').catch(() => {}), document.fonts.ready, $('img').decode().catch(() => {})]).then(() => {
+  fit(); if (Q.get('still')) seek(7000);   // 7000 ms = every loop at rest, every intro finished
+});
+</script>
+</body></html>

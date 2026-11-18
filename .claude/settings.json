@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "SessionStart": [{ "hooks": [{ "type": "command", "command": "sh scripts/git-sync.sh start" }] }],
+    "Stop": [{ "hooks": [{ "type": "command", "command": "sh scripts/git-sync.sh end" }] }]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(node studio/render.mjs:*)",
+      "PowerShell(node studio/render.mjs:*)",
+      "Bash(node studio/check-library.mjs:*)",
+      "PowerShell(node studio/check-library.mjs:*)",
+      "Bash(node studio/check-jumps.mjs:*)",
+      "PowerShell(node studio/check-jumps.mjs:*)",
+      "Bash(node studio/catalog.mjs:*)",
+      "PowerShell(node studio/catalog.mjs:*)",
+      "Bash(node studio/sheet.mjs:*)",
+      "PowerShell(node studio/sheet.mjs:*)",
+      "Bash(npm run still:*)",
+      "PowerShell(npm run still:*)",
+      "Bash(npm run render:*)",
+      "PowerShell(npm run render:*)",
+      "Bash(npm run check:*)",
+      "PowerShell(npm run check:*)",
+      "Bash(git status:*)",
+      "PowerShell(git status:*)",
+      "Bash(git diff:*)",
+      "PowerShell(git diff:*)",
+      "Bash(git log:*)",
+      "PowerShell(git log:*)",
+      "Bash(git pull:*)",
+      "PowerShell(git pull:*)"
+    ],
+    "deny": [
+      "Read(./.env)"
+    ]
+  }
+}
